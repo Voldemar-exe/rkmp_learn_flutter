@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'main_screen.dart';
+import '../features/tasks_list/tasks_list_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MainScreen(),
+      home: TaskListScreen(),
     );
   }
 }
