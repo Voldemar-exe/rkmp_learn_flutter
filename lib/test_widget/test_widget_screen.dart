@@ -10,10 +10,13 @@ class TestWidgetScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Нилов Владимир Владимирович\nИКБО-06-22\n22И1745",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.blue),
+            Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Text(
+                "Нилов Владимир Владимирович\nИКБО-06-22\n22И1745",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.blue),
+              ),
             ),
             SizedBox(width: 200),
             ElevatedButton(
