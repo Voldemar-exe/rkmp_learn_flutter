@@ -15,6 +15,7 @@ class TestWidgetScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, color: Colors.blue),
             ),
+            SizedBox(width: 200),
             ElevatedButton(
               onPressed: null,
               style: ButtonStyle(
