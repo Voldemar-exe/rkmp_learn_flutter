@@ -19,17 +19,24 @@ class TestWidgetScreen extends StatelessWidget {
               ),
             ),
             SizedBox(width: 200),
-            ElevatedButton(
-              onPressed: null,
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.amber),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+            Container(
+              padding: EdgeInsets.all(32.0),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(50)
+              ),
+              child: ElevatedButton(
+                onPressed: null,
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(Colors.amber),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                   ),
                 ),
+                child: const Text("Кнопка"),
               ),
-              child: const Text("Кнопка"),
             ),
           ],
         ),
