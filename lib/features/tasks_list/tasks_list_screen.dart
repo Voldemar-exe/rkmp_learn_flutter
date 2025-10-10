@@ -75,48 +75,45 @@ class _TaskListScreenState extends State<TaskListScreen> {
               child: _tasks.isEmpty
                   ? Text('Нет задач. Получите новую.')
                   : Column(
-                children: _tasks
-                    .where((task) => !task['isCompleted'])
-                    .map((task) {
-                  int index = _tasks.indexOf(task);
-                  return Card(
-                    child: ListTile(
-                      title: Text(task['text']),
-                      subtitle: Text(
-                        task['isCompleted']
-                            ? 'Выполнено'
-                            : 'Не выполнено',
-                      ),
-                      trailing: task['isCompleted']
-                          ? Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                          : Icon(
-                        Icons.radio_button_unchecked,
-                        color: Colors.grey,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                TaskDetailScreen(
-                                  taskIndex: index,
-                                  taskText: task['text'],
-                                  isCompleted:
-                                  task['isCompleted'],
-                                  onUpdateStatus:
-                                  _updateTaskStatus,
+                      children: _tasks
+                          .where((task) => !task['isCompleted'])
+                          .map((task) {
+                            int index = _tasks.indexOf(task);
+                            return Card(
+                              child: ListTile(
+                                title: Text(task['text']),
+                                subtitle: Text(
+                                  task['isCompleted']
+                                      ? 'Выполнено'
+                                      : 'Не выполнено',
                                 ),
-                          ),
-                        );
-                      },
+                                trailing: task['isCompleted']
+                                    ? Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.radio_button_unchecked,
+                                        color: Colors.grey,
+                                      ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TaskDetailScreen(
+                                        taskIndex: index,
+                                        taskText: task['text'],
+                                        isCompleted: task['isCompleted'],
+                                        onUpdateStatus: _updateTaskStatus,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          })
+                          .toList(),
                     ),
-                  );
-                })
-                    .toList(),
-              ),
             ),
             SizedBox(height: 10),
             ElevatedButton(
