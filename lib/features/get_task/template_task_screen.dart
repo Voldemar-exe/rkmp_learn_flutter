@@ -79,38 +79,38 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
             Expanded(
               child: _localTemplates.isEmpty
                   ? const Center(child: Text('Нет шаблонов'))
-                  : ListView.builder(
-                      itemCount: _localTemplates.length,
-                      itemBuilder: (context, index) {
-                        String template = _localTemplates[index];
-                        return Dismissible(
-                          key: ValueKey(template),
-                          direction: DismissDirection.endToStart,
-                          onDismissed: (_) => _removeTemplate(index),
-                          background: Container(
-                            color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.only(right: 20),
-                            child: const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
-                          ),
-                          child: Card(
-                            child: ListTile(
-                              title: Text(template),
-                              trailing: IconButton(
-                                icon: const Icon(
-                                  Icons.remove_circle,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () => _removeTemplate(index),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                  : ListView(
+                children: _localTemplates.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String template = entry.value;
+                  return Dismissible(
+                    key: ValueKey(template),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (_) => _removeTemplate(index),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
                     ),
+                    child: Card(
+                      child: ListTile(
+                        title: Text(template),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.remove_circle,
+                            color: Colors.red,
+                          ),
+                          onPressed: () => _removeTemplate(index),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
