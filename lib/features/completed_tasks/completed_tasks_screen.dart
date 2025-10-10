@@ -5,11 +5,13 @@ import '../task_details/task_details_screen.dart';
 class CompletedTasksScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allTasks;
   final Function(int, bool) onUpdateStatus;
+  final Function(int, List<String>) onUpdateTags;
 
   const CompletedTasksScreen({
     super.key,
     required this.allTasks,
     required this.onUpdateStatus,
+    required this.onUpdateTags,
   });
 
   @override
@@ -24,19 +26,36 @@ class _CompletedTasksScreenState extends State<CompletedTasksScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Выполненные задачи')),
+      appBar: AppBar(title: const Text('Выполненные задачи')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: completedTasks.isEmpty
-            ? Center(child: Text('Нет выполненных задач.'))
-            : Column(
-                children: completedTasks.map((task) {
+            ? const Center(child: Text('Нет выполненных задач.'))
+            : ListView.builder(
+                itemCount: completedTasks.length,
+                itemBuilder: (context, i) {
+                  final task = completedTasks[i];
                   int originalIndex = widget.allTasks.indexOf(task);
                   return Card(
                     child: ListTile(
                       title: Text(task['text']),
-                      subtitle: Text('Выполнено'),
-                      trailing: Icon(Icons.check_circle, color: Colors.green),
+                      subtitle: Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(text: 'Теги: '),
+                            TextSpan(
+                              text: (task['tags'] as List?)?.join(', ') ?? '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -45,16 +64,16 @@ class _CompletedTasksScreenState extends State<CompletedTasksScreen> {
                               taskIndex: originalIndex,
                               taskText: task['text'],
                               isCompleted: task['isCompleted'],
+                              tags: List<String>.from(task['tags'] ?? []),
                               onUpdateStatus: widget.onUpdateStatus,
+                              onUpdateTags: widget.onUpdateTags,
                             ),
                           ),
-                        ).then((value) {
-                          setState(() {});
-                        });
+                        ).then((_) => setState(() {}));
                       },
                     ),
                   );
-                }).toList(),
+                },
               ),
       ),
     );
