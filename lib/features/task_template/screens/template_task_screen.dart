@@ -6,12 +6,14 @@ class TemplateTaskScreen extends StatefulWidget {
   final List<Template> templates;
   final Function(Template) onAddTemplate;
   final Function(int) onRemoveTemplate;
+  final VoidCallback onBack;
 
   const TemplateTaskScreen({
     super.key,
     required this.templates,
     required this.onAddTemplate,
     required this.onRemoveTemplate,
+    required this.onBack,
   });
 
   @override
@@ -31,7 +33,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   }
 
   void _addTag() {
-    String tag = _tagsController.text.trim();
+    final tag = _tagsController.text.trim();
     if (tag.isNotEmpty && !_currentTags.contains(tag)) {
       setState(() {
         _currentTags.add(tag);
@@ -60,16 +62,16 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
     }
   }
 
-  void removeTemplate(int index) {
-    setState(() {
-      widget.onRemoveTemplate(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Управление шаблонами')),
+      appBar: AppBar(
+        title: const Text('Управление шаблонами'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: widget.onBack,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -84,12 +86,8 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                       labelText: 'Текст задачи',
                       hintText: 'Например: Сделать зарядку',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Введите текст';
-                      }
-                      return null;
-                    },
+                    validator: (value) =>
+                        value?.trim().isEmpty == true ? 'Введите текст' : null,
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -99,13 +97,12 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                           controller: _tagsController,
                           decoration: const InputDecoration(
                             hintText: 'Добавить тег',
-                            labelText: 'Теги',
                           ),
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.add),
                         onPressed: _addTag,
+                        icon: const Icon(Icons.add),
                       ),
                     ],
                   ),
@@ -115,7 +112,6 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                     children: _currentTags.map((tag) {
                       return Chip(
                         label: Text('#$tag'),
-                        deleteIcon: const Icon(Icons.close, size: 16),
                         onDeleted: () => _removeTag(tag),
                       );
                     }).toList(),
@@ -135,10 +131,9 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                   : ListView.builder(
                       itemCount: widget.templates.length,
                       itemBuilder: (context, index) {
-                        final template = widget.templates[index];
                         return TemplateItem(
-                          template: template,
-                          onDelete: () => removeTemplate(index)
+                          template: widget.templates[index],
+                          onDelete: () => widget.onRemoveTemplate(index),
                         );
                       },
                     ),

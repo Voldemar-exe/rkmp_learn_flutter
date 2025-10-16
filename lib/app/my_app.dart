@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../features/tasks_list/screens/tasks_list_screen.dart';
+import 'package:rkmp_learn_flutter/app/task_app_container.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: TaskListScreen(),
+      home: TaskAppContainer(),
     );
   }
 }
