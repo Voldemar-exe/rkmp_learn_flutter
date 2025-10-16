@@ -25,7 +25,7 @@ class TaskListScreen extends StatelessWidget {
     final pendingTasks = tasks.where((t) => !t.isCompleted).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Формирователь привычек')),
+      appBar: AppBar(title: const Text('Генератор задач')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
