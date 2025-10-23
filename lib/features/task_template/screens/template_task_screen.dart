@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
@@ -21,6 +22,10 @@ class TemplateTaskScreen extends StatefulWidget {
 }
 
 class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
+  static const templateAsIdeaImageUrl =
+      'https://cdn4.iconfinder.com/data/icons/reputation-management-1-1/66/54-1024.png';
+  static const emptyTemplateListImageUrl =
+      'https://cdn0.iconfinder.com/data/icons/analytic-investment-and-balanced-scorecard/512/151_inbox_Box_cabinet_document_empty_project-512.png';
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
   late List<String> _currentTags;
@@ -76,6 +81,15 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            CachedNetworkImage(
+              imageUrl: templateAsIdeaImageUrl,
+              width: 80,
+              height: 80,
+              fit: BoxFit.contain,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) =>
+              const Icon(Icons.image_not_supported, size: 60),
+            ),
             Form(
               key: _formKey,
               child: Column(
@@ -127,7 +141,28 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: widget.templates.isEmpty
-                  ? const Center(child: Text('Нет шаблонов'))
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: emptyTemplateListImageUrl,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.contain,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.image_not_supported, size: 60),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Нет шаблонов',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
                   : ListView.builder(
                       itemCount: widget.templates.length,
                       itemBuilder: (context, index) {

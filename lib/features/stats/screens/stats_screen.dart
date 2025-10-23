@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rkmp_learn_flutter/features/stats/widgets/stat_card.dart';
 
 import '../../../core/models/task.dart';
 
 class StatsScreen extends StatelessWidget {
+  static const String statsIconicImageUrl =
+      'https://cdn4.iconfinder.com/data/icons/success-filloutline/64/board-stats-report-presentation-diagram-512.png';
+
   final int total;
   final int completed;
   final int pending;
@@ -46,9 +50,23 @@ class StatsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Ваш прогресс',
-                style: Theme.of(context).textTheme.headlineSmall,
+              Row(
+                children: [
+                  Text(
+                    'Ваш прогресс',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(width: 20),
+                  CachedNetworkImage(
+                    imageUrl: statsIconicImageUrl,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.image_not_supported, size: 60),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               StatCard(
