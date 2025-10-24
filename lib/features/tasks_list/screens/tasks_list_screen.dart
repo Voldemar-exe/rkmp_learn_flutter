@@ -1,7 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/tasks_list/widgets/task_item.dart';
+import '../../../app/app_manager.dart';
 import '../../../core/models/task.dart';
+
+class TaskListScreenWrapper extends StatelessWidget {
+  final AppManager manager;
+
+  const TaskListScreenWrapper({super.key, required this.manager});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: manager,
+      builder: (context, child) {
+        return TaskListScreen(
+          tasks: manager.tasks,
+          onGenerateTask: manager.generateAndAddTask,
+          onToggleTask: manager.toggleTask,
+          onDeleteTask: manager.deleteTask,
+          onNavigateToTemplates: () => context.push('/templates'),
+          onNavigateToStats: () => context.push('/stats'),
+          onNavigateToProfile: () => context.go('/profile'),
+        );
+      },
+    );
+  }
+}
 
 class TaskListScreen extends StatelessWidget {
   static const String appIconicImageUrl =
@@ -24,6 +50,7 @@ class TaskListScreen extends StatelessWidget {
     required this.onDeleteTask,
     required this.onNavigateToTemplates,
     required this.onNavigateToStats,
+    required void Function() onNavigateToProfile,
   });
 
   @override

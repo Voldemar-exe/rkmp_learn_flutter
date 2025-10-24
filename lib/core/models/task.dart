@@ -1,7 +1,7 @@
 class Task {
   final String id;
   final String text;
-  final bool isCompleted;
+  bool isCompleted;
   final List<String> tags;
 
   Task({

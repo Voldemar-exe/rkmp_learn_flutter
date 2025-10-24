@@ -1,7 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../app/app_manager.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
+
+class TemplateTaskScreenWrapper extends StatelessWidget {
+  final AppManager manager;
+
+  const TemplateTaskScreenWrapper({super.key, required this.manager});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: manager,
+      builder: (context, child) {
+        return TemplateTaskScreen(
+          templates: manager.templates,
+          onAddTemplate: manager.addTemplate,
+          onRemoveTemplate: manager.removeTemplate,
+          onBack: () => context.pop(),
+        );
+      },
+    );
+  }
+}
 
 class TemplateTaskScreen extends StatefulWidget {
   final List<Template> templates;
@@ -88,7 +111,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
               fit: BoxFit.contain,
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) =>
-              const Icon(Icons.image_not_supported, size: 60),
+                  const Icon(Icons.image_not_supported, size: 60),
             ),
             Form(
               key: _formKey,
