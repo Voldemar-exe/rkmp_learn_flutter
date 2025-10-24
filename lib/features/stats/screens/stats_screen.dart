@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/stats/widgets/stat_card.dart';
 
 import '../../../app/app_manager.dart';
@@ -22,7 +21,7 @@ class StatsScreenWrapper extends StatelessWidget {
       completed: completed,
       pending: pending,
       tasks: manager.tasks,
-      onBack: () => context.pop(),
+      onBack: () => Navigator.of(context).pop(),
     );
   }
 }

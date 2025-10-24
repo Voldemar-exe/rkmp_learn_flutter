@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/task_template/screens/edit_template_screen.dart';
 import '../../../app/app_manager.dart';
 import '../../../core/models/template.dart';
@@ -20,7 +19,7 @@ class TemplateTaskScreenWrapper extends StatelessWidget {
           templates: manager.templates,
           onAddTemplate: manager.addTemplate,
           onRemoveTemplate: manager.removeTemplate,
-          onBack: () => context.pop(),
+          onBack: () => Navigator.of(context).pop(),
           onEditTemplate: (index) => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
