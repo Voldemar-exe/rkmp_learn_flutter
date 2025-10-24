@@ -6,8 +6,7 @@ import '../core/models/task.dart';
 import '../core/models/template.dart';
 
 class AppManager with ChangeNotifier {
-  String username = 'Нилов В.В.';
-  String group = 'ИКБО-06-22';
+  String username = 'Нилов В.В. ИКБО-06-22';
   int goal = 5;
 
   final List<Task> tasks = [];

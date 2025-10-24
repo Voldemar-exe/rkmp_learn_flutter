@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rkmp_learn_flutter/features/task_template/screens/edit_template_screen.dart';
 import '../../../app/app_manager.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
@@ -20,6 +21,12 @@ class TemplateTaskScreenWrapper extends StatelessWidget {
           onAddTemplate: manager.addTemplate,
           onRemoveTemplate: manager.removeTemplate,
           onBack: () => context.pop(),
+          onEditTemplate: (index) => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  EditTemplateScreen(index: index, manager: manager),
+            ),
+          ),
         );
       },
     );
@@ -31,6 +38,7 @@ class TemplateTaskScreen extends StatefulWidget {
   final Function(Template) onAddTemplate;
   final Function(int) onRemoveTemplate;
   final VoidCallback onBack;
+  final Function(int) onEditTemplate;
 
   const TemplateTaskScreen({
     super.key,
@@ -38,6 +46,7 @@ class TemplateTaskScreen extends StatefulWidget {
     required this.onAddTemplate,
     required this.onRemoveTemplate,
     required this.onBack,
+    required this.onEditTemplate,
   });
 
   @override
@@ -192,6 +201,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                         return TemplateItem(
                           template: widget.templates[index],
                           onDelete: () => widget.onRemoveTemplate(index),
+                          onEdit: () => widget.onEditTemplate(index),
                         );
                       },
                     ),

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/tasks_list/widgets/task_item.dart';
 import '../../../app/app_manager.dart';
 import '../../../core/models/task.dart';
+import '../../stats/screens/stats_screen.dart';
+import '../../task_template/screens/template_task_screen.dart';
 
 class TaskListScreenWrapper extends StatelessWidget {
   final AppManager manager;
@@ -20,8 +22,19 @@ class TaskListScreenWrapper extends StatelessWidget {
           onGenerateTask: manager.generateAndAddTask,
           onToggleTask: manager.toggleTask,
           onDeleteTask: manager.deleteTask,
-          onNavigateToTemplates: () => context.push('/templates'),
-          onNavigateToStats: () => context.push('/stats'),
+          onNavigateToTemplates: () =>
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      TemplateTaskScreenWrapper(manager: manager),
+                ),
+              ),
+          onNavigateToStats: () =>
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => StatsScreenWrapper(manager: manager),
+                ),
+              ),
           onNavigateToProfile: () => context.go('/profile'),
         );
       },
@@ -67,8 +80,19 @@ class TaskListScreen extends StatelessWidget {
           fit: BoxFit.contain,
           placeholder: (context, url) => const Icon(Icons.image, size: 24),
           errorWidget: (context, url, error) =>
-              const Icon(Icons.broken_image, size: 24),
+          const Icon(Icons.broken_image, size: 24),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: (i) {
+          if (i == 0) return;
+          context.go('/profile');
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Задачи'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профиль'),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,38 +120,39 @@ class TaskListScreen extends StatelessWidget {
             Expanded(
               child: pendingTasks.isEmpty
                   ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: emptyListImageUrl,
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.contain,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.image_not_supported, size: 60),
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'Нет активных заданий',
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView(
-                      children: pendingTasks
-                          .map(
-                            (task) => TaskListItem(
-                              task: task,
-                              onToggleCompletion: onToggleTask,
-                              onDelete: onDeleteTask,
-                            ),
-                          )
-                          .toList(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: emptyListImageUrl,
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                      const Icon(Icons.image_not_supported, size: 60),
                     ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Нет активных заданий',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )
+                  : ListView(
+                children: pendingTasks
+                    .map(
+                      (task) =>
+                      TaskListItem(
+                        task: task,
+                        onToggleCompletion: onToggleTask,
+                        onDelete: onDeleteTask,
+                      ),
+                )
+                    .toList(),
+              ),
             ),
           ],
         ),

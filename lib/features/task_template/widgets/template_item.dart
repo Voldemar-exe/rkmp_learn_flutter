@@ -5,11 +5,13 @@ import '../../../core/models/template.dart';
 class TemplateItem extends StatelessWidget {
   final Template template;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   const TemplateItem({
     super.key,
     required this.template,
     required this.onDelete,
+    required this.onEdit,
   });
 
   @override
@@ -21,19 +23,23 @@ class TemplateItem extends StatelessWidget {
           spacing: 6,
           children: template.tags.map((tag) {
             return Chip(
-              label: Text(
-                '#$tag',
-                style: const TextStyle(fontSize: 12),
-              ),
-              backgroundColor: Theme.of(
-                context,
-              ).colorScheme.surfaceContainer,
+              label: Text('#$tag', style: const TextStyle(fontSize: 12)),
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             );
           }).toList(),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Colors.red),
-          onPressed: onDelete,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.purple),
+              onPressed: onEdit,
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: onDelete,
+            ),
+          ],
         ),
       ),
     );

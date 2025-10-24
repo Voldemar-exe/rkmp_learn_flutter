@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rkmp_learn_flutter/app/app_manager.dart';
 
-import 'app_router.dart';
+import '../navigation/app_router.dart';
 
 class MyApp extends StatelessWidget {
   final AppManager appManager;
