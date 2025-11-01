@@ -111,17 +111,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Профиль')),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        onTap: (i) {
-          if (i == 1) return;
-          context.go('/tasks-list');
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Задачи'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профиль'),
-        ],
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 4),
             Text(
               'Цель: $goal задач',
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -154,6 +143,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () =>
+                  Router.neglect(context, () => context.go('/tasks-list')),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(200, 60), // ширина: 200, высота: 60
+              ),
+              child: const Text('Список задач', style: TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () => _showGoalInputDialog(context),
               icon: const Icon(Icons.edit),

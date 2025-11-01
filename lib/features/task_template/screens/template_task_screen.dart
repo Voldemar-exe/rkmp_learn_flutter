@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:rkmp_learn_flutter/features/task_template/screens/edit_template_screen.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/app_manager.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
@@ -19,13 +19,8 @@ class TemplateTaskScreenWrapper extends StatelessWidget {
           templates: manager.templates,
           onAddTemplate: manager.addTemplate,
           onRemoveTemplate: manager.removeTemplate,
-          onBack: () => Navigator.of(context).pop(),
-          onEditTemplate: (index) => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  EditTemplateScreen(index: index, manager: manager),
-            ),
-          ),
+          onEditTemplate: (index) =>
+              context.push("/tasks-list/templates/edit-template/$index"),
         );
       },
     );
@@ -36,7 +31,6 @@ class TemplateTaskScreen extends StatefulWidget {
   final List<Template> templates;
   final Function(Template) onAddTemplate;
   final Function(int) onRemoveTemplate;
-  final VoidCallback onBack;
   final Function(int) onEditTemplate;
 
   const TemplateTaskScreen({
@@ -44,7 +38,6 @@ class TemplateTaskScreen extends StatefulWidget {
     required this.templates,
     required this.onAddTemplate,
     required this.onRemoveTemplate,
-    required this.onBack,
     required this.onEditTemplate,
   });
 
@@ -101,13 +94,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Управление шаблонами'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: widget.onBack,
-        ),
-      ),
+      appBar: AppBar(title: const Text('Управление шаблонами')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

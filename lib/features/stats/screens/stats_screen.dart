@@ -20,8 +20,7 @@ class StatsScreenWrapper extends StatelessWidget {
       total: total,
       completed: completed,
       pending: pending,
-      tasks: manager.tasks,
-      onBack: () => Navigator.of(context).pop(),
+      tasks: manager.tasks
     );
   }
 }
@@ -34,7 +33,6 @@ class StatsScreen extends StatelessWidget {
   final int completed;
   final int pending;
   final List<Task> tasks;
-  final VoidCallback onBack;
 
   const StatsScreen({
     super.key,
@@ -42,7 +40,6 @@ class StatsScreen extends StatelessWidget {
     required this.completed,
     required this.pending,
     required this.tasks,
-    required this.onBack,
   });
 
   Map<String, int> _getTagCount(List<Task> tasks) {
@@ -59,13 +56,7 @@ class StatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final tagCounts = _getTagCount(tasks);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Статистика'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: onBack,
-        ),
-      ),
+      appBar: AppBar(title: const Text('Статистика')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

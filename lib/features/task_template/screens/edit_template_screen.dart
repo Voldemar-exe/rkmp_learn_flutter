@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/app_manager.dart';
 import '../../../core/models/template.dart';
 
@@ -60,7 +61,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         tags: List<String>.from(_currentTags),
       );
       widget.manager.updateTemplate(widget.index, updated);
-      Navigator.of(context).pop();
+      context.pop();
     }
   }
 
