@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import '../../../app/app_manager.dart';
+import 'package:rkmp_learn_flutter/app/app_data_service.dart';
 import '../../../core/models/template.dart';
 
 class EditTemplateScreen extends StatefulWidget {
   final int index;
-  final AppManager manager;
+  final Template template;
 
   const EditTemplateScreen({
     super.key,
     required this.index,
-    required this.manager,
+    required this.template,
   });
 
   @override
@@ -18,6 +19,7 @@ class EditTemplateScreen extends StatefulWidget {
 }
 
 class _EditTemplateScreenState extends State<EditTemplateScreen> {
+  late AppDataService _dataManagerService;
   late TextEditingController _textController;
   late List<String> _currentTags;
   final TextEditingController _tagsController = TextEditingController();
@@ -26,9 +28,9 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
   @override
   void initState() {
     super.initState();
-    final template = widget.manager.templates[widget.index];
-    _textController = TextEditingController(text: template.text);
-    _currentTags = List<String>.from(template.tags);
+    _dataManagerService = GetIt.I<AppDataService>();
+    _textController = TextEditingController(text: widget.template.text);
+    _currentTags = List<String>.from(widget.template.tags);
   }
 
   @override
@@ -60,7 +62,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         text: _textController.text.trim(),
         tags: List<String>.from(_currentTags),
       );
-      widget.manager.updateTemplate(widget.index, updated);
+      _dataManagerService.updateTemplate(widget.index, updated);
       context.pop();
     }
   }

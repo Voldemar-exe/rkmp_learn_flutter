@@ -1,46 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
 import 'package:rkmp_learn_flutter/features/stats/widgets/stat_card.dart';
 
-import '../../../app/app_manager.dart';
 import '../../../core/models/task.dart';
-
-class StatsScreenWrapper extends StatelessWidget {
-  final AppManager manager;
-
-  const StatsScreenWrapper({super.key, required this.manager});
-
-  @override
-  Widget build(BuildContext context) {
-    final completed = manager.completedCount;
-    final total = manager.tasks.length;
-    final pending = total - completed;
-
-    return StatsScreen(
-      total: total,
-      completed: completed,
-      pending: pending,
-      tasks: manager.tasks
-    );
-  }
-}
 
 class StatsScreen extends StatelessWidget {
   static const String statsIconicImageUrl =
       'https://cdn4.iconfinder.com/data/icons/success-filloutline/64/board-stats-report-presentation-diagram-512.png';
 
-  final int total;
-  final int completed;
-  final int pending;
-  final List<Task> tasks;
-
-  const StatsScreen({
-    super.key,
-    required this.total,
-    required this.completed,
-    required this.pending,
-    required this.tasks,
-  });
+  const StatsScreen({super.key});
 
   Map<String, int> _getTagCount(List<Task> tasks) {
     final Map<String, int> counts = {};
@@ -54,6 +23,13 @@ class StatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final manager = AppManagerInherited.of(context);
+
+    final completed = manager.completedCount;
+    final total = manager.data.tasks.length;
+    final pending = total - completed;
+    final tasks = manager.data.tasks;
+
     final tagCounts = _getTagCount(tasks);
     return Scaffold(
       appBar: AppBar(title: const Text('Статистика')),

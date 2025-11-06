@@ -1,63 +1,44 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_data_service.dart';
 import 'package:rkmp_learn_flutter/features/tasks_list/widgets/task_item.dart';
-import '../../../app/app_manager.dart';
-import '../../../core/models/task.dart';
 
-class TaskListScreenWrapper extends StatelessWidget {
-  final AppManager manager;
-
-  const TaskListScreenWrapper({super.key, required this.manager});
+class TaskListScreen extends StatefulWidget {
+  const TaskListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: manager,
-      builder: (_, child) {
-        return TaskListScreen(
-          tasks: manager.tasks,
-          onGenerateTask: manager.generateAndAddTask,
-          onToggleTask: manager.toggleTask,
-          onDeleteTask: manager.deleteTask,
-          onNavigateToTemplates: () => context.push('/tasks-list/templates'),
-          onNavigateToStats: () => context.push('/tasks-list/stats'),
-          onNavigateToProfile: () =>
-              Router.neglect(context, () => context.go('/profile')),
-        );
-      },
-    );
-  }
+  State<TaskListScreen> createState() => _TaskListScreenState();
 }
 
-class TaskListScreen extends StatelessWidget {
+class _TaskListScreenState extends State<TaskListScreen> {
   static const String appIconicImageUrl =
       'https://cdn0.iconfinder.com/data/icons/job-seeker/256/statistic_job_seeker_employee_unemployee_work-512.png';
   static const String emptyListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/competitive-strategy-and-corporate-training/512/175_file_report_invoice_card_checklist-512.png';
 
-  final List<Task> tasks;
-  final VoidCallback onGenerateTask;
-  final Function(String) onToggleTask;
-  final Function(String) onDeleteTask;
-  final VoidCallback onNavigateToTemplates;
-  final VoidCallback onNavigateToStats;
-  final VoidCallback onNavigateToProfile;
+  late AppDataService _dataManagerService;
 
-  const TaskListScreen({
-    super.key,
-    required this.tasks,
-    required this.onGenerateTask,
-    required this.onToggleTask,
-    required this.onDeleteTask,
-    required this.onNavigateToTemplates,
-    required this.onNavigateToStats,
-    required this.onNavigateToProfile,
-  });
+  @override
+  void initState() {
+    super.initState();
+    _dataManagerService = GetIt.I<AppDataService>();
+  }
+
+  void navigateToTemplates() => context.push('/tasks-list/templates');
+
+  void navigateToStats() => context.push('/tasks-list/stats');
+
+  void navigateToProfile() =>
+      Router.neglect(context, () => context.go('/profile'));
 
   @override
   Widget build(BuildContext context) {
-    final pendingTasks = tasks.where((t) => !t.isCompleted).toList();
+    final pendingTasks = AppManagerInherited.of(
+      context,
+    ).data.tasks.where((t) => !t.isCompleted).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +54,7 @@ class TaskListScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: onNavigateToProfile,
+            onPressed: navigateToProfile,
             icon: Icon(Icons.person, size: 36),
           ),
           SizedBox(width: 36),
@@ -88,15 +69,15 @@ class TaskListScreen extends StatelessWidget {
               runSpacing: 8,
               children: [
                 ElevatedButton(
-                  onPressed: onGenerateTask,
+                  onPressed: _dataManagerService.generateAndAddTask,
                   child: const Text('Сгенерировать задание'),
                 ),
                 ElevatedButton(
-                  onPressed: onNavigateToTemplates,
+                  onPressed: navigateToTemplates,
                   child: const Text('Настроить шаблоны'),
                 ),
                 ElevatedButton(
-                  onPressed: onNavigateToStats,
+                  onPressed: navigateToStats,
                   child: const Text('Статистика'),
                 ),
               ],
@@ -131,8 +112,10 @@ class TaskListScreen extends StatelessWidget {
                           .map(
                             (task) => TaskListItem(
                               task: task,
-                              onToggleCompletion: onToggleTask,
-                              onDelete: onDeleteTask,
+                              onToggleCompletion: (id) =>
+                                  _dataManagerService.toggleTask(id),
+                              onDelete: (id) =>
+                                  _dataManagerService.deleteTask(id),
                             ),
                           )
                           .toList(),

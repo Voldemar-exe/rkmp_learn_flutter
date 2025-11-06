@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import '../../../app/app_manager.dart';
+import 'package:rkmp_learn_flutter/app/app_data_service.dart';
+import '../../../app/app_manager_inherited.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final AppManager manager;
-
-  const ProfileScreen({super.key, required this.manager});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -13,13 +13,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _goalController;
+  late AppDataService _dataManagerService;
 
   @override
   void initState() {
     super.initState();
-    _goalController = TextEditingController(
-      text: widget.manager.goal.toString(),
-    );
+    _dataManagerService = GetIt.I<AppDataService>();
   }
 
   @override
@@ -30,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _showGoalInputDialog(BuildContext context) {
     final controller = TextEditingController(
-      text: widget.manager.goal.toString(),
+      text: AppManagerInherited.of(context).data.goal.toString(),
     );
 
     showDialog(
@@ -56,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 setState(() {
                   final value = int.tryParse(controller.text.trim());
                   if (value != null && value > 0) {
-                    widget.manager.goal = value;
+                    AppManagerInherited.of(context).data.goal = value;
                   }
                   Navigator.of(context).pop();
                 });
@@ -86,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               setState(() {
                 Navigator.of(context).pop();
-                widget.manager.resetToDefaults();
+                _dataManagerService.resetToDefaults();
               });
             },
             child: const Text('Сбросить', style: TextStyle(color: Colors.red)),
@@ -106,8 +105,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final goal = widget.manager.goal;
-    final remaining = getRemainingText(widget.manager.remaining);
+    _goalController = TextEditingController(
+      text: AppManagerInherited.of(context).data.goal.toString(),
+    );
+    final goal = AppManagerInherited.of(context).data.goal;
+    final remaining = getRemainingText(
+      AppManagerInherited.of(context).remaining,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('Профиль')),
@@ -126,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 9),
             Text(
-              'Имя: ${widget.manager.username}',
+              'Имя: ${AppManagerInherited.of(context).data.username}',
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -146,9 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ElevatedButton(
               onPressed: () =>
                   Router.neglect(context, () => context.go('/tasks-list')),
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(200, 60), // ширина: 200, высота: 60
-              ),
+              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 60)),
               child: const Text('Список задач', style: TextStyle(fontSize: 20)),
             ),
             const SizedBox(height: 16),

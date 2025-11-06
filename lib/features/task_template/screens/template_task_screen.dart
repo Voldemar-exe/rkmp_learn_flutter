@@ -1,45 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import '../../../app/app_manager.dart';
+import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_data_service.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
 
-class TemplateTaskScreenWrapper extends StatelessWidget {
-  final AppManager manager;
-
-  const TemplateTaskScreenWrapper({super.key, required this.manager});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: manager,
-      builder: (context, child) {
-        return TemplateTaskScreen(
-          templates: manager.templates,
-          onAddTemplate: manager.addTemplate,
-          onRemoveTemplate: manager.removeTemplate,
-          onEditTemplate: (index) =>
-              context.push("/tasks-list/templates/edit-template/$index"),
-        );
-      },
-    );
-  }
-}
-
 class TemplateTaskScreen extends StatefulWidget {
-  final List<Template> templates;
-  final Function(Template) onAddTemplate;
-  final Function(int) onRemoveTemplate;
-  final Function(int) onEditTemplate;
-
-  const TemplateTaskScreen({
-    super.key,
-    required this.templates,
-    required this.onAddTemplate,
-    required this.onRemoveTemplate,
-    required this.onEditTemplate,
-  });
+  const TemplateTaskScreen({super.key});
 
   @override
   State<TemplateTaskScreen> createState() => _TemplateTaskScreenState();
@@ -50,6 +19,9 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
       'https://cdn4.iconfinder.com/data/icons/reputation-management-1-1/66/54-1024.png';
   static const emptyTemplateListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/analytic-investment-and-balanced-scorecard/512/151_inbox_Box_cabinet_document_empty_project-512.png';
+
+  late AppDataService _dataManagerService;
+
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
   late List<String> _currentTags;
@@ -59,6 +31,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   void initState() {
     super.initState();
     _currentTags = [];
+    _dataManagerService = GetIt.I<AppDataService>();
   }
 
   void _addTag() {
@@ -83,7 +56,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
         text: _textController.text.trim(),
         tags: List<String>.from(_currentTags),
       );
-      widget.onAddTemplate(newTemplate);
+      _dataManagerService.addTemplate(newTemplate);
       _textController.clear();
       setState(() {
         _currentTags.clear();
@@ -91,8 +64,13 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
     }
   }
 
+  void _navigateToEdit(int index) =>
+      context.push("/tasks-list/templates/edit-template/$index");
+
   @override
   Widget build(BuildContext context) {
+    final templates = AppManagerInherited.of(context).data.templates;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Управление шаблонами')),
       body: Padding(
@@ -158,7 +136,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: widget.templates.isEmpty
+              child: templates.isEmpty
                   ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -182,12 +160,13 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: widget.templates.length,
+                      itemCount: templates.length,
                       itemBuilder: (context, index) {
                         return TemplateItem(
-                          template: widget.templates[index],
-                          onDelete: () => widget.onRemoveTemplate(index),
-                          onEdit: () => widget.onEditTemplate(index),
+                          template: templates[index],
+                          onDelete: () =>
+                              _dataManagerService.removeTemplate(index),
+                          onEdit: () => _navigateToEdit(index),
                         );
                       },
                     ),
