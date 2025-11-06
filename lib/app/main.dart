@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rkmp_learn_flutter/app/app_manager.dart';
+import '../core/models/app_data.dart';
+import 'app_manager.dart';
 import 'my_app.dart';
 
 void main() {
-  final appManager = AppManager();
-  runApp(MyApp(appManager: appManager));
+  final initialData = AppData(
+    username: 'Нилов В.В. ИКБО-06-22',
+    goal: 5,
+    tasks: [],
+  );
+  runApp(AppManager(initialData: initialData, child: MyApp()));
 }

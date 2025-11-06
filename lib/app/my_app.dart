@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rkmp_learn_flutter/app/app_manager.dart';
 
 import '../navigation/app_router.dart';
 
 class MyApp extends StatelessWidget {
-  final AppManager appManager;
 
-  const MyApp({super.key, required this.appManager});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      routerConfig: AppRouter(appManager: appManager).getRouter(),
+      routerConfig: AppRouter().getRouter(),
     );
   }
 }
