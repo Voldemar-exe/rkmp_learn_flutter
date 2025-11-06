@@ -30,9 +30,7 @@ void main() {
     anotherTen: 'stop',
   );
 }*/
-
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 class MyLogic extends InheritedWidget {
   final int number;
@@ -48,30 +46,22 @@ class MyLogic extends InheritedWidget {
 }
 
 class MyClass {}
-
 abstract class MyModel {
   void doSomething();
 }
-
 abstract class MyAPI {
   Future<String> fetchData();
 }
-
-// Реализация абстрактных классов
 class MyModelImplementation implements MyModel {
   @override
-  void doSomething() {
-    // Реализация метода
-  }
+  void doSomething() {}
 }
-
 class MyAPIImplementation implements MyAPI {
   @override
   Future<String> fetchData() async {
     return "Data from API";
   }
 }
-
 /*
 void main() {
 
@@ -84,7 +74,6 @@ void main() {
   GetIt getItShort = GetIt.I;
 
   GetIt.I.registerFactory(() => MyClass(), instanceName: 'my_class');
-
   GetIt.I.isRegistered<MyClass>(instanceName: 'my_class');
 
   // get instance of MyClass
