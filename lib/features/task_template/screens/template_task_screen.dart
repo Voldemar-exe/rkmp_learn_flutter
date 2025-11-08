@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
 
@@ -23,10 +24,13 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   late List<String> _currentTags;
   final _formKey = GlobalKey<FormState>();
 
+  late AppRepository _appRepository;
+
   @override
   void initState() {
     super.initState();
     _currentTags = [];
+    _appRepository = GetIt.I<AppRepository>();
   }
 
   void _addTag() {
@@ -52,7 +56,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
         tags: List<String>.from(_currentTags),
       );
       setState(() {
-        AppManagerInherited.of(context).appRepository.addTemplate(newTemplate);
+        _appRepository.addTemplate(newTemplate);
         _textController.clear();
         _currentTags.clear();
       });
@@ -64,9 +68,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final templates = AppManagerInherited.of(
-      context,
-    ).appRepository.data.templates;
+    final templates = _appRepository.data.templates;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Управление шаблонами')),
@@ -162,9 +164,7 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                         return TemplateItem(
                           template: templates[index],
                           onDelete: () => setState(() {
-                            AppManagerInherited.of(
-                              context,
-                            ).appRepository.removeTemplate(index);
+                            _appRepository.removeTemplate(index);
                           }),
                           onEdit: () => _navigateToEdit(index),
                         );

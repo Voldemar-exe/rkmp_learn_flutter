@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import 'package:rkmp_learn_flutter/features/tasks_list/widgets/task_item.dart';
 
 class TaskListScreen extends StatefulWidget {
@@ -17,6 +18,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
   static const String emptyListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/competitive-strategy-and-corporate-training/512/175_file_report_invoice_card_checklist-512.png';
 
+  late AppRepository _appRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRepository = GetIt.I<AppRepository>();
+  }
+
   void navigateToTemplates() => context.push('/tasks-list/templates');
 
   void navigateToStats() => context.push('/tasks-list/stats');
@@ -26,9 +35,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pendingTasks = AppManagerInherited.of(
-      context,
-    ).appRepository.data.tasks.where((t) => !t.isCompleted).toList();
+    final pendingTasks = _appRepository.data.tasks
+        .where((t) => !t.isCompleted)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -60,9 +69,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () => setState(() {
-                    AppManagerInherited.of(
-                      context,
-                    ).appRepository.generateAndAddTask();
+                    _appRepository.generateAndAddTask();
                   }),
                   child: const Text('Сгенерировать задание'),
                 ),
@@ -107,14 +114,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             (task) => TaskListItem(
                               task: task,
                               onToggleCompletion: (id) => setState(() {
-                                AppManagerInherited.of(
-                                  context,
-                                ).appRepository.toggleTask(id);
+                                _appRepository.toggleTask(id);
                               }),
                               onDelete: (id) => setState(() {
-                                AppManagerInherited.of(
-                                  context,
-                                ).appRepository.deleteTask(id);
+                                _appRepository.deleteTask(id);
                               }),
                             ),
                           )

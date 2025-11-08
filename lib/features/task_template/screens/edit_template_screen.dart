@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import '../../../core/models/template.dart';
 
 class EditTemplateScreen extends StatefulWidget {
   final int index;
-  final Template template;
 
   const EditTemplateScreen({
     super.key,
-    required this.index,
-    required this.template,
+    required this.index
   });
 
   @override
@@ -23,11 +22,15 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
   final TextEditingController _tagsController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  late AppRepository _appRepository;
+
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController(text: widget.template.text);
-    _currentTags = List<String>.from(widget.template.tags);
+    _appRepository = GetIt.I<AppRepository>();
+    final template = _appRepository.data.templates[widget.index];
+    _textController = TextEditingController(text: template.text);
+    _currentTags = List<String>.from(template.tags);
   }
 
   @override
@@ -60,9 +63,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         tags: List<String>.from(_currentTags),
       );
       setState(() {
-        AppManagerInherited.of(
-          context,
-        ).appRepository.updateTemplate(widget.index, updated);
+        _appRepository.updateTemplate(widget.index, updated);
       });
       context.pop();
     }

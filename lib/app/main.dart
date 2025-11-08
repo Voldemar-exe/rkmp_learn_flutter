@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
 import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import '../core/models/app_data.dart';
+import 'package:get_it/get_it.dart';
 import 'my_app.dart';
 
 void main() {
@@ -13,5 +13,6 @@ void main() {
   final AppRepositoryImpl appRepositoryImpl = AppRepositoryImpl(
     data: initialData,
   );
-  runApp(AppManagerInherited(appRepository: appRepositoryImpl, child: MyApp()));
+  GetIt.I.registerSingleton<AppRepository>(appRepositoryImpl);
+  runApp(MyApp());
 }

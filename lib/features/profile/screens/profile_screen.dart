@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import '../../../app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,6 +13,14 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _goalController;
 
+  late AppRepository _appRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRepository = GetIt.I<AppRepository>();
+  }
+
   @override
   void dispose() {
     _goalController.dispose();
@@ -20,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _showGoalInputDialog(BuildContext context) {
     final controller = TextEditingController(
-      text: AppManagerInherited.of(context).appRepository.data.goal.toString(),
+      text: _appRepository.data.goal.toString(),
     );
 
     showDialog(
@@ -46,8 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 setState(() {
                   final value = int.tryParse(controller.text.trim());
                   if (value != null && value > 0) {
-                    AppManagerInherited.of(context).appRepository.data.goal =
-                        value;
+                    _appRepository.data.goal = value;
                   }
                   Navigator.of(context).pop();
                 });
@@ -76,8 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           TextButton(
             onPressed: () {
               setState(() {
+                _appRepository.resetToDefaults();
                 Navigator.of(context).pop();
-                AppManagerInherited.of(context).appRepository.resetToDefaults();
               });
             },
             child: const Text('Сбросить', style: TextStyle(color: Colors.red)),
@@ -98,15 +106,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _goalController = TextEditingController(
-      text: AppManagerInherited.of(context).appRepository.data.goal.toString(),
+      text: _appRepository.data.goal.toString(),
     );
-    final goal = AppManagerInherited.of(context).appRepository.data.goal;
-    final username = AppManagerInherited.of(
-      context,
-    ).appRepository.data.username;
-    final remaining = getRemainingText(
-      AppManagerInherited.of(context).appRepository.remaining,
-    );
+    final goal = _appRepository.data.goal;
+    final username = _appRepository.data.username;
+    final remaining = getRemainingText(_appRepository.remaining);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Профиль')),

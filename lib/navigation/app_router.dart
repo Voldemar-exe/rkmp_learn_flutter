@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
 import 'package:rkmp_learn_flutter/features/stats/screens/stats_screen.dart';
 import 'package:rkmp_learn_flutter/features/task_template/screens/edit_template_screen.dart';
 import 'package:rkmp_learn_flutter/features/task_template/screens/template_task_screen.dart';
@@ -25,10 +24,7 @@ class AppRouter {
                 name: 'edit-template',
                 builder: (context, state) {
                   final index = int.parse(state.pathParameters['index']!);
-                  final template = AppManagerInherited.of(
-                    context,
-                  ).appRepository.data.templates[index];
-                  return EditTemplateScreen(index: index, template: template);
+                  return EditTemplateScreen(index: index);
                 },
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:get_it/get_it.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import 'package:rkmp_learn_flutter/features/stats/widgets/stat_card.dart';
 
 import '../../../core/models/task.dart';
@@ -23,7 +24,7 @@ class StatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appRepository = AppManagerInherited.of(context).appRepository;
+    final appRepository = GetIt.I<AppRepository>();
 
     final completed = appRepository.completedCount;
     final total = appRepository.data.tasks.length;

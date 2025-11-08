@@ -64,7 +64,7 @@ class AppRepositoryImpl implements AppRepository {
     }
   }
   @override
-  void resetToDefaults() => data.resetToDefaults();
+  void resetToDefaults() => data = data.resetToDefaults();
   @override
   int get completedCount => data.tasks.where((t) => t.isCompleted).length;
   @override
