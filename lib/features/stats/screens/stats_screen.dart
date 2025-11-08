@@ -23,12 +23,12 @@ class StatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manager = AppManagerInherited.of(context);
+    final appRepository = AppManagerInherited.of(context).appRepository;
 
-    final completed = manager.completedCount;
-    final total = manager.data.tasks.length;
+    final completed = appRepository.completedCount;
+    final total = appRepository.data.tasks.length;
     final pending = total - completed;
-    final tasks = manager.data.tasks;
+    final tasks = appRepository.data.tasks;
 
     final tagCounts = _getTagCount(tasks);
     return Scaffold(

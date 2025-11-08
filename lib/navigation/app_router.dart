@@ -27,7 +27,7 @@ class AppRouter {
                   final index = int.parse(state.pathParameters['index']!);
                   final template = AppManagerInherited.of(
                     context,
-                  ).data.templates[index];
+                  ).appRepository.data.templates[index];
                   return EditTemplateScreen(index: index, template: template);
                 },
               ),

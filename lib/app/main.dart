@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 import '../core/models/app_data.dart';
-import 'app_manager.dart';
 import 'my_app.dart';
 
 void main() {
@@ -9,5 +10,8 @@ void main() {
     goal: 5,
     tasks: [],
   );
-  runApp(AppManager(initialData: initialData, child: MyApp()));
+  final AppRepositoryImpl appRepositoryImpl = AppRepositoryImpl(
+    data: initialData,
+  );
+  runApp(AppManagerInherited(appRepository: appRepositoryImpl, child: MyApp()));
 }

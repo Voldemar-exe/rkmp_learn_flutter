@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
-import '../core/models/app_data.dart';
+import 'package:rkmp_learn_flutter/app/app_repository.dart';
 
 class AppManagerInherited extends InheritedWidget {
-  final AppData data;
+  final AppRepository appRepository;
 
   const AppManagerInherited({
     super.key,
-    required this.data,
+    required this.appRepository,
     required super.child,
   });
 
@@ -19,10 +19,6 @@ class AppManagerInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(AppManagerInherited oldWidget) {
-    return oldWidget.data != data;
+    return appRepository.data != oldWidget.appRepository.data;
   }
-
-  int get completedCount => data.tasks.where((t) => t.isCompleted).length;
-
-  int get remaining => (data.goal - completedCount).clamp(0, data.goal);
 }

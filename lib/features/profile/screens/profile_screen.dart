@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_data_service.dart';
 import '../../../app/app_manager_inherited.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,13 +11,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _goalController;
-  late AppDataService _dataManagerService;
-
-  @override
-  void initState() {
-    super.initState();
-    _dataManagerService = GetIt.I<AppDataService>();
-  }
 
   @override
   void dispose() {
@@ -29,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _showGoalInputDialog(BuildContext context) {
     final controller = TextEditingController(
-      text: AppManagerInherited.of(context).data.goal.toString(),
+      text: AppManagerInherited.of(context).appRepository.data.goal.toString(),
     );
 
     showDialog(
@@ -55,7 +46,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 setState(() {
                   final value = int.tryParse(controller.text.trim());
                   if (value != null && value > 0) {
-                    AppManagerInherited.of(context).data.goal = value;
+                    AppManagerInherited.of(context).appRepository.data.goal =
+                        value;
                   }
                   Navigator.of(context).pop();
                 });
@@ -85,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               setState(() {
                 Navigator.of(context).pop();
-                _dataManagerService.resetToDefaults();
+                AppManagerInherited.of(context).appRepository.resetToDefaults();
               });
             },
             child: const Text('Сбросить', style: TextStyle(color: Colors.red)),
@@ -106,11 +98,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _goalController = TextEditingController(
-      text: AppManagerInherited.of(context).data.goal.toString(),
+      text: AppManagerInherited.of(context).appRepository.data.goal.toString(),
     );
-    final goal = AppManagerInherited.of(context).data.goal;
+    final goal = AppManagerInherited.of(context).appRepository.data.goal;
+    final username = AppManagerInherited.of(
+      context,
+    ).appRepository.data.username;
     final remaining = getRemainingText(
-      AppManagerInherited.of(context).remaining,
+      AppManagerInherited.of(context).appRepository.remaining,
     );
 
     return Scaffold(
@@ -130,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 9),
             Text(
-              'Имя: ${AppManagerInherited.of(context).data.username}',
+              'Имя: $username',
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

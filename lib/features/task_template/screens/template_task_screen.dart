@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/app/app_manager_inherited.dart';
-import 'package:rkmp_learn_flutter/app/app_data_service.dart';
 import '../../../core/models/template.dart';
 import '../widgets/template_item.dart';
 
@@ -20,8 +18,6 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   static const emptyTemplateListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/analytic-investment-and-balanced-scorecard/512/151_inbox_Box_cabinet_document_empty_project-512.png';
 
-  late AppDataService _dataManagerService;
-
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
   late List<String> _currentTags;
@@ -31,7 +27,6 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   void initState() {
     super.initState();
     _currentTags = [];
-    _dataManagerService = GetIt.I<AppDataService>();
   }
 
   void _addTag() {
@@ -56,9 +51,9 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
         text: _textController.text.trim(),
         tags: List<String>.from(_currentTags),
       );
-      _dataManagerService.addTemplate(newTemplate);
-      _textController.clear();
       setState(() {
+        AppManagerInherited.of(context).appRepository.addTemplate(newTemplate);
+        _textController.clear();
         _currentTags.clear();
       });
     }
@@ -69,7 +64,9 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final templates = AppManagerInherited.of(context).data.templates;
+    final templates = AppManagerInherited.of(
+      context,
+    ).appRepository.data.templates;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Управление шаблонами')),
@@ -164,8 +161,11 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                       itemBuilder: (context, index) {
                         return TemplateItem(
                           template: templates[index],
-                          onDelete: () =>
-                              _dataManagerService.removeTemplate(index),
+                          onDelete: () => setState(() {
+                            AppManagerInherited.of(
+                              context,
+                            ).appRepository.removeTemplate(index);
+                          }),
                           onEdit: () => _navigateToEdit(index),
                         );
                       },
