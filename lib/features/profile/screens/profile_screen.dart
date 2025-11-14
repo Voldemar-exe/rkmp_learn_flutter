@@ -1,37 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_repository.dart';
+import 'package:rkmp_learn_flutter/features/profile/providers/profile_notifier.dart';
+import 'package:rkmp_learn_flutter/features/tasks/providers/tasks_notifier.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  late TextEditingController _goalController;
-
-  late AppRepository _appRepository;
-
-  @override
-  void initState() {
-    super.initState();
-    _appRepository = GetIt.I<AppRepository>();
-  }
-
-  @override
-  void dispose() {
-    _goalController.dispose();
-    super.dispose();
-  }
-
-  void _showGoalInputDialog(BuildContext context) {
-    final controller = TextEditingController(
-      text: _appRepository.data.goal.toString(),
-    );
-
+  void _showGoalInputDialog(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(profileProvider.notifier).goalController;
     showDialog(
       context: context,
       builder: (context) {
@@ -52,13 +29,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  final value = int.tryParse(controller.text.trim());
-                  if (value != null && value > 0) {
-                    _appRepository.data.goal = value;
-                  }
-                  Navigator.of(context).pop();
-                });
+                final value = int.tryParse(controller.text.trim());
+                if (value != null && value > 0) {
+                  ref.read(profileProvider.notifier).updateGoal(value);
+                }
+                Navigator.of(context).pop();
               },
               child: const Text('Сохранить'),
             ),
@@ -68,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showResetConfirmationDialog(BuildContext context) {
+  void _showResetConfirmationDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -83,10 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           TextButton(
             onPressed: () {
-              setState(() {
-                _appRepository.resetToDefaults();
-                Navigator.of(context).pop();
-              });
+              ref.read(profileProvider.notifier).resetToDefaults();
+              Navigator.of(context).pop();
             },
             child: const Text('Сбросить', style: TextStyle(color: Colors.red)),
           ),
@@ -104,13 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    _goalController = TextEditingController(
-      text: _appRepository.data.goal.toString(),
-    );
-    final goal = _appRepository.data.goal;
-    final username = _appRepository.data.username;
-    final remaining = getRemainingText(_appRepository.remaining);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(profileProvider);
+    final completedCount = ref.watch(tasksProvider.notifier).completedCount;
+    final remaining = user.goal - completedCount;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Профиль')),
@@ -129,19 +99,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 9),
             Text(
-              'Имя: $username',
+              'Имя: ${user.username}',
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
             Text(
-              'Цель: $goal задач',
+              'Цель: ${user.goal} задач',
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              remaining,
+              'Осталось: $remaining',
               style: const TextStyle(fontSize: 24, color: Colors.orange),
               textAlign: TextAlign.center,
             ),
@@ -154,13 +124,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
-              onPressed: () => _showGoalInputDialog(context),
+              onPressed: () => _showGoalInputDialog(context, ref),
               icon: const Icon(Icons.edit),
               label: const Text('Изменить цель'),
             ),
             const SizedBox(height: 16),
             OutlinedButton.icon(
-              onPressed: () => _showResetConfirmationDialog(context),
+              onPressed: () => _showResetConfirmationDialog(context, ref),
               icon: const Icon(Icons.delete_forever, color: Colors.red),
               label: const Text(
                 'Сбросить всё',

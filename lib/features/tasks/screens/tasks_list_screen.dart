@@ -1,43 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_repository.dart';
-import 'package:rkmp_learn_flutter/features/tasks_list/widgets/task_item.dart';
+import 'package:rkmp_learn_flutter/features/tasks/providers/tasks_notifier.dart';
+import 'package:rkmp_learn_flutter/features/tasks/widgets/task_item.dart';
 
-class TaskListScreen extends StatefulWidget {
-  const TaskListScreen({super.key});
+class TasksListScreen extends ConsumerWidget {
+  const TasksListScreen({super.key});
 
-  @override
-  State<TaskListScreen> createState() => _TaskListScreenState();
-}
-
-class _TaskListScreenState extends State<TaskListScreen> {
   static const String appIconicImageUrl =
       'https://cdn0.iconfinder.com/data/icons/job-seeker/256/statistic_job_seeker_employee_unemployee_work-512.png';
   static const String emptyListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/competitive-strategy-and-corporate-training/512/175_file_report_invoice_card_checklist-512.png';
 
-  late AppRepository _appRepository;
-
   @override
-  void initState() {
-    super.initState();
-    _appRepository = GetIt.I<AppRepository>();
-  }
-
-  void navigateToTemplates() => context.push('/tasks-list/templates');
-
-  void navigateToStats() => context.push('/tasks-list/stats');
-
-  void navigateToProfile() =>
-      Router.neglect(context, () => context.go('/profile'));
-
-  @override
-  Widget build(BuildContext context) {
-    final pendingTasks = _appRepository.data.tasks
-        .where((t) => !t.isCompleted)
-        .toList();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pendingTasks = ref.watch(
+      tasksProvider.select((tasks) {
+        return tasks.where((t) => !t.isCompleted).toList();
+      }),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +35,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: navigateToProfile,
+            onPressed: () =>
+                Router.neglect(context, () => context.go('/profile')),
             icon: Icon(Icons.person, size: 36),
           ),
           SizedBox(width: 36),
@@ -68,17 +51,16 @@ class _TaskListScreenState extends State<TaskListScreen> {
               runSpacing: 8,
               children: [
                 ElevatedButton(
-                  onPressed: () => setState(() {
-                    _appRepository.generateAndAddTask();
-                  }),
+                  onPressed: () =>
+                      ref.read(tasksProvider.notifier).generateAndAddTask(),
                   child: const Text('Сгенерировать задание'),
                 ),
                 ElevatedButton(
-                  onPressed: navigateToTemplates,
+                  onPressed: () => context.push('/tasks-list/templates'),
                   child: const Text('Настроить шаблоны'),
                 ),
                 ElevatedButton(
-                  onPressed: navigateToStats,
+                  onPressed: () => context.push('/tasks-list/stats'),
                   child: const Text('Статистика'),
                 ),
               ],
@@ -113,12 +95,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           .map(
                             (task) => TaskListItem(
                               task: task,
-                              onToggleCompletion: (id) => setState(() {
-                                _appRepository.toggleTask(id);
-                              }),
-                              onDelete: (id) => setState(() {
-                                _appRepository.deleteTask(id);
-                              }),
+                              onToggleCompletion: (id) => ref
+                                  .read(tasksProvider.notifier)
+                                  .toggleTask(id),
+                              onDelete: (id) => ref
+                                  .read(tasksProvider.notifier)
+                                  .deleteTask(id),
                             ),
                           )
                           .toList(),

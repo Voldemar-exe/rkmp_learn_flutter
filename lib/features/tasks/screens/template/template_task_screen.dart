@@ -1,74 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/app/app_repository.dart';
-import '../../../core/models/template.dart';
-import '../widgets/template_item.dart';
+import '../../providers/template_form.dart';
+import '../../providers/templates_notifier.dart';
+import '../../widgets/template_item.dart';
 
-class TemplateTaskScreen extends StatefulWidget {
+class TemplateTaskScreen extends ConsumerWidget {
   const TemplateTaskScreen({super.key});
 
-  @override
-  State<TemplateTaskScreen> createState() => _TemplateTaskScreenState();
-}
-
-class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
   static const templateAsIdeaImageUrl =
       'https://cdn4.iconfinder.com/data/icons/reputation-management-1-1/66/54-1024.png';
   static const emptyTemplateListImageUrl =
       'https://cdn0.iconfinder.com/data/icons/analytic-investment-and-balanced-scorecard/512/151_inbox_Box_cabinet_document_empty_project-512.png';
 
-  final TextEditingController _textController = TextEditingController();
-  final TextEditingController _tagsController = TextEditingController();
-  late List<String> _currentTags;
-  final _formKey = GlobalKey<FormState>();
-
-  late AppRepository _appRepository;
-
   @override
-  void initState() {
-    super.initState();
-    _currentTags = [];
-    _appRepository = GetIt.I<AppRepository>();
-  }
-
-  void _addTag() {
-    final tag = _tagsController.text.trim();
-    if (tag.isNotEmpty && !_currentTags.contains(tag)) {
-      setState(() {
-        _currentTags.add(tag);
-      });
-      _tagsController.clear();
-    }
-  }
-
-  void _removeTag(String tag) {
-    setState(() {
-      _currentTags.remove(tag);
-    });
-  }
-
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      final newTemplate = Template(
-        text: _textController.text.trim(),
-        tags: List<String>.from(_currentTags),
-      );
-      setState(() {
-        _appRepository.addTemplate(newTemplate);
-        _textController.clear();
-        _currentTags.clear();
-      });
-    }
-  }
-
-  void _navigateToEdit(int index) =>
-      context.push("/tasks-list/templates/edit-template/$index");
-
-  @override
-  Widget build(BuildContext context) {
-    final templates = _appRepository.data.templates;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final templates = ref.watch(templatesProvider);
+    final form = ref.watch(templateFormProvider);
+    final formNotifier = ref.watch(templateFormProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Управление шаблонами')),
@@ -86,11 +36,10 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                   const Icon(Icons.image_not_supported, size: 60),
             ),
             Form(
-              key: _formKey,
               child: Column(
                 children: [
                   TextFormField(
-                    controller: _textController,
+                    controller: formNotifier.templateController,
                     decoration: const InputDecoration(
                       labelText: 'Текст задачи',
                       hintText: 'Например: Сделать зарядку',
@@ -102,15 +51,19 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _tagsController,
+                        child: TextFormField(
+                          controller: formNotifier.tagController,
                           decoration: const InputDecoration(
-                            hintText: 'Добавить тег',
+                            labelText: 'Текст тега',
+                            hintText: 'Например: Личное',
                           ),
+                          validator: (value) => value?.trim().isEmpty == true
+                              ? 'Введите текст'
+                              : null,
                         ),
                       ),
                       IconButton(
-                        onPressed: _addTag,
+                        onPressed: formNotifier.addTag,
                         icon: const Icon(Icons.add),
                       ),
                     ],
@@ -118,16 +71,24 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 6,
-                    children: _currentTags.map((tag) {
+                    children: form.tags.map((tag) {
                       return Chip(
                         label: Text('#$tag'),
-                        onDeleted: () => _removeTag(tag),
+                        onDeleted: () => formNotifier.removeTag(tag),
                       );
                     }).toList(),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: _submitForm,
+                    onPressed: () {
+                      final template = formNotifier.buildTemplate();
+                      if (template != null) {
+                        ref
+                            .read(templatesProvider.notifier)
+                            .addTemplate(template);
+                        formNotifier.reset();
+                      }
+                    },
                     child: const Text('Добавить шаблон'),
                   ),
                 ],
@@ -163,10 +124,12 @@ class _TemplateTaskScreenState extends State<TemplateTaskScreen> {
                       itemBuilder: (context, index) {
                         return TemplateItem(
                           template: templates[index],
-                          onDelete: () => setState(() {
-                            _appRepository.removeTemplate(index);
-                          }),
-                          onEdit: () => _navigateToEdit(index),
+                          onDelete: () => ref
+                              .read(templatesProvider.notifier)
+                              .removeTemplate(index),
+                          onEdit: () => context.push(
+                            "/tasks-list/templates/edit-template/$index",
+                          ),
                         );
                       },
                     ),

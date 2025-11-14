@@ -1,37 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:rkmp_learn_flutter/app/app_repository.dart';
-import 'package:rkmp_learn_flutter/features/stats/widgets/stat_card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rkmp_learn_flutter/features/tasks/providers/stats_data.dart';
+import 'package:rkmp_learn_flutter/features/tasks/widgets/stat_card.dart';
 
-import '../../../core/models/task.dart';
-
-class StatsScreen extends StatelessWidget {
+class StatsScreen extends ConsumerWidget {
   static const String statsIconicImageUrl =
       'https://cdn4.iconfinder.com/data/icons/success-filloutline/64/board-stats-report-presentation-diagram-512.png';
 
   const StatsScreen({super.key});
 
-  Map<String, int> _getTagCount(List<Task> tasks) {
-    final Map<String, int> counts = {};
-    for (final task in tasks.where((task) => task.isCompleted)) {
-      for (final tag in task.tags) {
-        counts[tag] = (counts[tag] ?? 0) + 1;
-      }
-    }
-    return counts;
-  }
-
   @override
-  Widget build(BuildContext context) {
-    final appRepository = GetIt.I<AppRepository>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stats = ref.read(statsDataProvider);
 
-    final completed = appRepository.completedCount;
-    final total = appRepository.data.tasks.length;
-    final pending = total - completed;
-    final tasks = appRepository.data.tasks;
-
-    final tagCounts = _getTagCount(tasks);
     return Scaffold(
       appBar: AppBar(title: const Text('Статистика')),
       body: Padding(
@@ -62,17 +44,17 @@ class StatsScreen extends StatelessWidget {
               const SizedBox(height: 20),
               StatCard(
                 label: 'Всего заданий',
-                value: total.toString(),
+                value: stats.total.toString(),
                 color: Colors.blue,
               ),
               StatCard(
                 label: 'Выполнено',
-                value: completed.toString(),
+                value: stats.completed.toString(),
                 color: Colors.green,
               ),
               StatCard(
                 label: 'Осталось',
-                value: pending.toString(),
+                value: stats.pending.toString(),
                 color: Colors.orange,
               ),
               const SizedBox(height: 30),
@@ -81,7 +63,7 @@ class StatsScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
-              ...tagCounts.entries.map((entry) {
+              ...stats.tagCounts.entries.map((entry) {
                 return ListTile(
                   leading: CircleAvatar(
                     radius: 12,

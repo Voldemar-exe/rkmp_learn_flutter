@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/models/template.dart';
+import '../models/task_template.dart';
 
 class TemplateItem extends StatelessWidget {
-  final Template template;
+  final TaskTemplate template;
   final VoidCallback onDelete;
   final VoidCallback onEdit;
 

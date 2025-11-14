@@ -1,14 +1,14 @@
-class Template {
+class TaskTemplate {
   final String text;
   final List<String> tags;
 
-  Template({
+  TaskTemplate({
     required this.text,
     required this.tags,
   });
 
-  Template copyWith({String? text, List<String>? tags}) {
-    return Template(
+  TaskTemplate copyWith({String? text, List<String>? tags}) {
+    return TaskTemplate(
       text: text ?? this.text,
       tags: tags ?? List<String>.from(this.tags),
     );
