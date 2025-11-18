@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/task_template.dart';
 
-part 'templates_notifier.g.dart';
+part 'generated_code/templates_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
 class TemplatesNotifier extends _$TemplatesNotifier {

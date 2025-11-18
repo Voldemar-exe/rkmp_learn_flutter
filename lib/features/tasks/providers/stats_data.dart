@@ -3,7 +3,7 @@ import 'package:rkmp_learn_flutter/features/tasks/providers/tasks_notifier.dart'
 
 import '../models/stats.dart';
 
-part 'stats_data.g.dart';
+part 'generated_code/stats_data.g.dart';
 
 @riverpod
 Stats statsData(Ref ref) {

@@ -5,7 +5,7 @@ import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.d
 
 import '../../../core/models/user.dart';
 
-part 'profile_notifier.g.dart';
+part 'generated_code/profile_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
 class ProfileNotifier extends _$ProfileNotifier {
