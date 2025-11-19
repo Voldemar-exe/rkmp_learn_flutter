@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/task_template.dart';
 
-part 'generated_code/template_form.g.dart';
+part 'template_form.g.dart';
 
 @riverpod
 class TemplateForm extends _$TemplateForm {

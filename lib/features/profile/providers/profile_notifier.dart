@@ -3,9 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/tasks_notifier.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.dart';
 
-import '../../../core/models/user.dart';
+import '../models/user.dart';
 
-part 'generated_code/profile_notifier.g.dart';
+
+part 'profile_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
 class ProfileNotifier extends _$ProfileNotifier {

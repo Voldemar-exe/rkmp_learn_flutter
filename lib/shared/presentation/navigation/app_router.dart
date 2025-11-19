@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rkmp_learn_flutter/features/auth/presentation/screens/login_screen.dart';
+import 'package:rkmp_learn_flutter/features/auth/presentation/screens/register_screen.dart';
+import 'package:rkmp_learn_flutter/features/profile/screens/profile_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/template_form.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.dart';
+import 'package:rkmp_learn_flutter/features/tasks/screens/stats_screen.dart';
+import 'package:rkmp_learn_flutter/features/tasks/screens/tasks_list_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/screens/template/edit_template_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/screens/template/template_task_screen.dart';
 
-import '../../features/profile/screens/profile_screen.dart';
-import '../../features/tasks/screens/stats_screen.dart';
-import '../../features/tasks/screens/tasks_list_screen.dart';
 
 class AppRouter {
   late final GoRouter _router = GoRouter(
-    initialLocation: '/tasks-list',
+    initialLocation: '/login',
     routes: [
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => LoginScreen()
+      ),
+      GoRoute(
+        path: '/register',
+        name: 'register',
+        builder: (context, state) => RegisterScreen()
+      ),
       GoRoute(
         path: '/tasks-list',
         name: 'tasks-list',

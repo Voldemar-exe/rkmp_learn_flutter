@@ -3,7 +3,7 @@ import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.d
 
 import '../models/task.dart';
 
-part 'generated_code/tasks_notifier.g.dart';
+part 'tasks_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
 class TasksNotifier extends _$TasksNotifier {

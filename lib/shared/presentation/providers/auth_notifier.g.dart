@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../tasks_notifier.dart';
+part of 'auth_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,52 @@ part of '../tasks_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(TasksNotifier)
-const tasksProvider = TasksNotifierProvider._();
+@ProviderFor(AuthNotifier)
+const authProvider = AuthNotifierProvider._();
 
-final class TasksNotifierProvider
-    extends $NotifierProvider<TasksNotifier, List<Task>> {
-  const TasksNotifierProvider._()
+final class AuthNotifierProvider
+    extends $NotifierProvider<AuthNotifier, AuthState> {
+  const AuthNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'tasksProvider',
-        isAutoDispose: false,
+        name: r'authProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$tasksNotifierHash();
+  String debugGetCreateSourceHash() => _$authNotifierHash();
 
   @$internal
   @override
-  TasksNotifier create() => TasksNotifier();
+  AuthNotifier create() => AuthNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Task> value) {
+  Override overrideWithValue(AuthState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<Task>>(value),
+      providerOverride: $SyncValueProvider<AuthState>(value),
     );
   }
 }
 
-String _$tasksNotifierHash() => r'b3b0877b9203a5bc33a400eea56506aabd6bc9ea';
+String _$authNotifierHash() => r'c5da67f7a6442a270c0d3ace8f622c5b66fe7f51';
 
-abstract class _$TasksNotifier extends $Notifier<List<Task>> {
-  List<Task> build();
+abstract class _$AuthNotifier extends $Notifier<AuthState> {
+  AuthState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<List<Task>, List<Task>>;
+    final ref = this.ref as $Ref<AuthState, AuthState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<Task>, List<Task>>,
-              List<Task>,
+              AnyNotifier<AuthState, AuthState>,
+              AuthState,
               Object?,
               Object?
             >;
