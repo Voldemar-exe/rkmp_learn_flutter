@@ -6,7 +6,6 @@ class ProfileRemoteDataSource {
       'id': '1',
       'userId': '1',
       'username': 'Jonny John',
-      'goal': 10,
       'profile_icon_name': 'person',
       'created_at': DateTime.now().toIso8601String(),
     },
@@ -14,7 +13,6 @@ class ProfileRemoteDataSource {
       'id': '2',
       'userId': '2',
       'username': 'Jane Smith',
-      'goal': 5,
       'profile_icon_name': 'account_circle',
       'created_at': DateTime.now().toIso8601String(),
     },
@@ -25,7 +23,6 @@ class ProfileRemoteDataSource {
       final profile = _profiles.firstWhere((p) => p['userId'] == userId.toString());
       return ProfileEntity(
         username: profile['username'],
-        goal: profile['goal'],
         profileIconName: profile['profile_icon_name'],
       );
     } catch (e) {
@@ -41,7 +38,6 @@ class ProfileRemoteDataSource {
         'id': (_profiles.length + 1).toString(),
         'userId': userId.toString(),
         'username': profile.username,
-        'goal': profile.goal,
         'profile_icon_name': profile.profileIconName,
         'created_at': DateTime.now().toIso8601String(),
       });
@@ -50,7 +46,6 @@ class ProfileRemoteDataSource {
         'id': _profiles[index]['id'],
         'userId': userId.toString(),
         'username': profile.username,
-        'goal': profile.goal,
         'profile_icon_name': profile.profileIconName,
         'updated_at': DateTime.now().toIso8601String(),
       };

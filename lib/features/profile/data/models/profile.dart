@@ -3,14 +3,12 @@ import 'package:rkmp_learn_flutter/features/profile/domain/entities/profile_enti
 class Profile extends ProfileEntity {
   Profile({
     required super.username,
-    required super.goal,
     super.profileIconName,
   });
 
   static Profile fromEntity(ProfileEntity entity) {
     return Profile(
       username: entity.username,
-      goal: entity.goal,
       profileIconName: entity.profileIconName,
     );
   }
@@ -18,7 +16,6 @@ class Profile extends ProfileEntity {
   ProfileEntity toEntity() {
     return ProfileEntity(
       username: username,
-      goal: goal,
       profileIconName: profileIconName,
     );
   }
@@ -31,7 +28,6 @@ class Profile extends ProfileEntity {
   }) {
     return Profile(
       username: username ?? this.username,
-      goal: goal ?? this.goal,
       profileIconName: profileIconName ?? this.profileIconName,
     );
   }

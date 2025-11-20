@@ -3,7 +3,6 @@ import 'package:rkmp_learn_flutter/features/profile/domain/entities/profile_enti
 class ProfileLocalDataSource {
   static final Map<String, dynamic> _storage = {
     'username': 'Jonny John',
-    'goal': 10,
     'profile_icon_name': 'person',
   };
 
@@ -12,7 +11,6 @@ class ProfileLocalDataSource {
 
     return ProfileEntity(
       username: _storage['username'] as String,
-      goal: _storage['goal'] as int,
       profileIconName: _storage['profile_icon_name'] as String?,
     );
   }
@@ -21,7 +19,6 @@ class ProfileLocalDataSource {
     await Future.delayed(const Duration(milliseconds: 100));
 
     _storage['username'] = profile.username;
-    _storage['goal'] = profile.goal;
     _storage['profile_icon_name'] = profile.profileIconName;
   }
 

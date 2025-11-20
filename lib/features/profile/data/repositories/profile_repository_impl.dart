@@ -26,7 +26,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
     } catch (e) {
       return ProfileEntity(
         username: 'Guest',
-        goal: 0,
         profileIconName: 'person',
       );
     }
