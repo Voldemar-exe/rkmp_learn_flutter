@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:rkmp_learn_flutter/features/auth/presentation/screens/register_screen.dart';
 import 'package:rkmp_learn_flutter/features/profile/screens/profile_screen.dart';
+import 'package:rkmp_learn_flutter/features/settings/presentation/screens/settings_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/template_form.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.dart';
 import 'package:rkmp_learn_flutter/features/tasks/screens/stats_screen.dart';
@@ -11,20 +12,19 @@ import 'package:rkmp_learn_flutter/features/tasks/screens/tasks_list_screen.dart
 import 'package:rkmp_learn_flutter/features/tasks/screens/template/edit_template_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/screens/template/template_task_screen.dart';
 
-
 class AppRouter {
   late final GoRouter _router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/settings',
     routes: [
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => LoginScreen()
+        builder: (context, state) => LoginScreen(),
       ),
       GoRoute(
         path: '/register',
         name: 'register',
-        builder: (context, state) => RegisterScreen()
+        builder: (context, state) => RegisterScreen(),
       ),
       GoRoute(
         path: '/tasks-list',
@@ -67,6 +67,11 @@ class AppRouter {
         path: '/profile',
         name: 'profile',
         builder: (context, state) => ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        name: 'settings',
+        builder: (context, state) => SettingsScreen(),
       ),
     ],
   );

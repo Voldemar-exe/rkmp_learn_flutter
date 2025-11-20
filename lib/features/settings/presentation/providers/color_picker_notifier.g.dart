@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_notifier.dart';
+part of 'color_picker_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,53 @@ part of 'auth_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(AuthNotifier)
-const authProvider = AuthNotifierProvider._();
+@ProviderFor(ColorPickerNotifier)
+const colorPickerProvider = ColorPickerNotifierProvider._();
 
-final class AuthNotifierProvider
-    extends $NotifierProvider<AuthNotifier, AuthState> {
-  const AuthNotifierProvider._()
+final class ColorPickerNotifierProvider
+    extends $NotifierProvider<ColorPickerNotifier, Color> {
+  const ColorPickerNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authProvider',
+        name: r'colorPickerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$authNotifierHash();
+  String debugGetCreateSourceHash() => _$colorPickerNotifierHash();
 
   @$internal
   @override
-  AuthNotifier create() => AuthNotifier();
+  ColorPickerNotifier create() => ColorPickerNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthState value) {
+  Override overrideWithValue(Color value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AuthState>(value),
+      providerOverride: $SyncValueProvider<Color>(value),
     );
   }
 }
 
-String _$authNotifierHash() => r'0b8cfa7216c5e1a0ab43d410ace771a9c3f5d3bc';
+String _$colorPickerNotifierHash() =>
+    r'1dfd8cb00183354d1b0128dbb8b6edfeb26b6e2b';
 
-abstract class _$AuthNotifier extends $Notifier<AuthState> {
-  AuthState build();
+abstract class _$ColorPickerNotifier extends $Notifier<Color> {
+  Color build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AuthState, AuthState>;
+    final ref = this.ref as $Ref<Color, Color>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AuthState, AuthState>,
-              AuthState,
+              AnyNotifier<Color, Color>,
+              Color,
               Object?,
               Object?
             >;

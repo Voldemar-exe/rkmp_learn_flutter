@@ -19,7 +19,7 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
+      id: int.parse(json['id']),
       login: json['login'],
       email: json['email'],
       createdAt: DateTime.parse(json['created_at']),
@@ -28,7 +28,7 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id': id.toString(),
       'login': login,
       'email': email,
       'created_at': createdAt.toIso8601String(),

@@ -30,7 +30,7 @@ class AuthRemoteDatasource {
     );
 
     return UserEntity(
-      id: user['id'],
+      id: int.parse(user['id']),
       login: user['login'],
       email: user['email'],
       createdAt: DateTime.parse(user['created_at']),
@@ -64,7 +64,7 @@ class AuthRemoteDatasource {
 
     // TODO: error with null
     return UserEntity(
-      id: newUser['id']!,
+      id: int.parse(newUser['id']!),
       login: newUser['login']!,
       email: newUser['email']!,
       createdAt: DateTime.parse(newUser['created_at']!),

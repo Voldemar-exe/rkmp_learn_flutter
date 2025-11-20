@@ -89,33 +89,33 @@ class ProfileScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 60,
+              radius: 40,
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Icon(
                 Icons.person,
-                size: 60,
+                size: 40,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
             const SizedBox(height: 9),
             Text(
               'Имя: ${user.username}',
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
             Text(
               'Цель: ${user.goal} задач',
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               'Осталось: $remaining',
-              style: const TextStyle(fontSize: 24, color: Colors.orange),
+              style: const TextStyle(fontSize: 20, color: Colors.orange),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () =>
                   Router.neglect(context, () => context.go('/tasks-list')),
