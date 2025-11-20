@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:rkmp_learn_flutter/features/auth/presentation/screens/register_screen.dart';
-import 'package:rkmp_learn_flutter/features/profile/screens/profile_screen.dart';
+import 'package:rkmp_learn_flutter/features/profile/presentation/screens/profile_screen.dart';
 import 'package:rkmp_learn_flutter/features/settings/presentation/screens/settings_screen.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/template_form.dart';
 import 'package:rkmp_learn_flutter/features/tasks/providers/templates_notifier.dart';
@@ -14,7 +14,7 @@ import 'package:rkmp_learn_flutter/features/tasks/screens/template/template_task
 
 class AppRouter {
   late final GoRouter _router = GoRouter(
-    initialLocation: '/settings',
+    initialLocation: '/login',
     routes: [
       GoRoute(
         path: '/login',

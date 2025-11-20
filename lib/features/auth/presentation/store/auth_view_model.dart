@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:rkmp_learn_flutter/shared/data/models/user_model.dart';
+import 'package:rkmp_learn_flutter/shared/data/models/user.dart';
 import 'package:rkmp_learn_flutter/shared/presentation/providers/auth_notifier.dart';
 import 'package:rkmp_learn_flutter/shared/presentation/states/auth_state.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -49,7 +49,7 @@ class AuthViewModel extends _$AuthViewModel {
       if (user != null) {
         ref
             .read(authProvider.notifier)
-            .updateState(Authenticated(user: UserModel.fromEntity(user)));
+            .updateState(Authenticated(user: User.fromEntity(user)));
         onSuccess();
       } else {
         onError('Login failed');
@@ -73,7 +73,7 @@ class AuthViewModel extends _$AuthViewModel {
       if (user != null) {
         ref
             .read(authProvider.notifier)
-            .updateState(Authenticated(user: UserModel.fromEntity(user)));
+            .updateState(Authenticated(user: User.fromEntity(user)));
         onSuccess();
       } else {
         onError('Registration failed');

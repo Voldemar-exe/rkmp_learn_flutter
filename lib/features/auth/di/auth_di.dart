@@ -5,13 +5,13 @@ import '../domain/repositories/auth_repository.dart';
 import '../data/repositories/auth_repository_impl.dart';
 
 void registerAuthDependencies() {
-  GetIt.I.registerLazySingleton<AuthRemoteDatasource>(
-    () => AuthRemoteDatasource(),
+  GetIt.I.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSource(),
   );
-  GetIt.I.registerLazySingleton<AuthLocalDatasource>(() => AuthLocalDatasource());
+  GetIt.I.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
 
   GetIt.I.registerLazySingleton<AuthRepository>(
     () =>
-        AuthRepositoryImpl(remoteDatasource: GetIt.I(), localDatasource: GetIt.I()),
+        AuthRepositoryImpl(remoteDataSource: GetIt.I(), localDataSource: GetIt.I()),
   );
 }

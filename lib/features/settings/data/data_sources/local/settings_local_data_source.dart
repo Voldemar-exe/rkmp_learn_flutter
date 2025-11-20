@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rkmp_learn_flutter/core/constants/settings_constants.dart';
 import 'package:rkmp_learn_flutter/features/settings/domain/entities/app_settings.dart';
 
-class SettingsLocalDatasource {
+class SettingsLocalDataSource {
   static final Map<String, dynamic> _storage = {
     'theme_mode': 'system',
     'primary_color': 0xFF6200EE,

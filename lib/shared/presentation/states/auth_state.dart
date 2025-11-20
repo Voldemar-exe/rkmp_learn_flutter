@@ -1,4 +1,4 @@
-import 'package:rkmp_learn_flutter/shared/data/models/user_model.dart';
+import 'package:rkmp_learn_flutter/shared/data/models/user.dart';
 
 sealed class AuthState {
   const AuthState();
@@ -13,7 +13,7 @@ final class Loading extends AuthState {
 }
 
 final class Authenticated extends AuthState {
-  final UserModel user;
+  final User user;
 
   const Authenticated({required this.user});
 }

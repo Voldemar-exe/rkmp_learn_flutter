@@ -1,15 +1,15 @@
 import 'package:rkmp_learn_flutter/features/auth/domain/entities/user_entity.dart';
 
-class UserModel extends UserEntity {
-  const UserModel({
+class User extends UserEntity {
+  const User({
     required super.id,
     required super.login,
     super.email,
     required super.createdAt,
   });
 
-  static UserModel fromEntity(UserEntity entity) {
-    return UserModel(
+  static User fromEntity(UserEntity entity) {
+    return User(
       id: entity.id,
       login: entity.login,
       email: entity.email,
@@ -17,8 +17,8 @@ class UserModel extends UserEntity {
     );
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
       id: int.parse(json['id']),
       login: json['login'],
       email: json['email'],

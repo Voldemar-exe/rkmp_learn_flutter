@@ -9,8 +9,6 @@ import 'package:rkmp_learn_flutter/shared/presentation/states/auth_state.dart';
 
 part 'settings_view_model.g.dart';
 
-
-
 @riverpod
 class SettingsViewModel extends _$SettingsViewModel {
   late final SettingsRepository _settingsRepository;

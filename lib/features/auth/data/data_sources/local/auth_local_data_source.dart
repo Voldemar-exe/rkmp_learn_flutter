@@ -1,6 +1,6 @@
 import '../../../domain/entities/user_entity.dart';
 
-class AuthLocalDatasource {
+class AuthLocalDataSource {
   static const _currentUserKey = 'current_user';
   static const _tokenKey = 'auth_token';
 

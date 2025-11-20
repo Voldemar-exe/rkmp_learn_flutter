@@ -6,17 +6,17 @@ import 'package:rkmp_learn_flutter/features/settings/domain/repositories/setting
 import 'package:rkmp_learn_flutter/features/settings/presentation/store/settings_view_model.dart';
 
 void registerSettingsDependencies() {
-  GetIt.I.registerLazySingleton<SettingsLocalDatasource>(
-    () => SettingsLocalDatasource(),
+  GetIt.I.registerLazySingleton<SettingsLocalDataSource>(
+    () => SettingsLocalDataSource(),
   );
-  GetIt.I.registerLazySingleton<SettingsRemoteDatasource>(
-    () => SettingsRemoteDatasource(),
+  GetIt.I.registerLazySingleton<SettingsRemoteDataSource>(
+    () => SettingsRemoteDataSource(),
   );
 
   GetIt.I.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
-      SettingsLocalDatasource(),
-      SettingsRemoteDatasource(),
+      SettingsLocalDataSource(),
+      SettingsRemoteDataSource(),
     ),
   );
 

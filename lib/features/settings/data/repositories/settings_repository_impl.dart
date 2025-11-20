@@ -5,15 +5,15 @@ import 'package:rkmp_learn_flutter/features/settings/domain/entities/app_setting
 import 'package:rkmp_learn_flutter/features/settings/domain/repositories/settings_repository.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
-  final SettingsLocalDatasource _localDatasource;
-  final SettingsRemoteDatasource _remoteDatasource;
+  final SettingsLocalDataSource _localDataSource;
+  final SettingsRemoteDataSource _remoteDataSource;
 
-  SettingsRepositoryImpl(this._localDatasource, this._remoteDatasource);
+  SettingsRepositoryImpl(this._localDataSource, this._remoteDataSource);
 
   @override
   Future<AppSettingsEntity> getLocalSettings() async {
     try {
-      final localSettings = await _localDatasource.getSettings();
+      final localSettings = await _localDataSource.getSettings();
       return localSettings;
     } catch (e) {
       return SettingsConstants.defaultSettings;
@@ -23,13 +23,13 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<AppSettingsEntity?> getSettingsForUser(int userId) async {
     try {
-      final remoteSettings = await _remoteDatasource.getSettingsById(userId);
+      final remoteSettings = await _remoteDataSource.getSettingsById(userId);
       if (remoteSettings != null) {
-        await _localDatasource.saveSettings(remoteSettings);
+        await _localDataSource.saveSettings(remoteSettings);
         return remoteSettings;
       }
 
-      return await _localDatasource.getSettings();
+      return await _localDataSource.getSettings();
     } catch (e) {
       return null;
     }
@@ -38,9 +38,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveSettings(AppSettingsEntity settings, int? userId) async {
     try {
-      await _localDatasource.saveSettings(settings);
+      await _localDataSource.saveSettings(settings);
       if (userId != null) {
-        await _remoteDatasource.saveSettings(settings, userId);
+        await _remoteDataSource.saveSettings(settings, userId);
       }
     } catch (e) {
       rethrow;
@@ -50,10 +50,10 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> clearSettings(int? userId) async {
     try {
-      await _localDatasource.clearSettings();
+      await _localDataSource.clearSettings();
 
       if (userId != null) {
-        await _remoteDatasource.clearSettings(userId);
+        await _remoteDataSource.clearSettings(userId);
       }
     } catch (e) {
       rethrow;

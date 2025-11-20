@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rkmp_learn_flutter/core/constants/settings_constants.dart';
 import 'package:rkmp_learn_flutter/features/settings/domain/entities/app_settings.dart';
 
-class SettingsRemoteDatasource {
+class SettingsRemoteDataSource {
   static final List<Map<String, dynamic>> _settings = [
     {
       'id': '1',

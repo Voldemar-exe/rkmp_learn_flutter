@@ -1,6 +1,6 @@
 import '../../../domain/entities/user_entity.dart';
 
-class AuthRemoteDatasource {
+class AuthRemoteDataSource {
 
   static final List<Map<String, dynamic>> _users = [
     {
