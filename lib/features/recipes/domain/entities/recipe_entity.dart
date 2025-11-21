@@ -36,4 +36,28 @@ class RecipeEntity {
       ingredientsWithMeasure: ingredientsWithMeasure ?? this.ingredientsWithMeasure,
     );
   }
+
+  factory RecipeEntity.fromJson(Map<String, dynamic> json) {
+    return RecipeEntity(
+      id: json['id'],
+      name: json['name'],
+      category: json['category'],
+      area: json['area'],
+      instructions: json['instructions'],
+      imageUrl: json['imageUrl'],
+      ingredientsWithMeasure: Map<String, String>.from(json['ingredientsWithMeasure']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'category': category,
+      'area': area,
+      'instructions': instructions,
+      'imageUrl': imageUrl,
+      'ingredientsWithMeasure': ingredientsWithMeasure,
+    };
+  }
 }

@@ -14,15 +14,29 @@ class RecipesViewModel extends _$RecipesViewModel {
   @override
   Future<RecipesState> build() async {
     _repository = GetIt.I<RecipeRepository>();
-    loadRandomRecipe();
-    return RecipesState(
-      userRecipes: [],
-      searchResults: [],
-      selectedRecipe: null,
-      randomRecipe: null,
-      isLoading: false,
-      error: null,
-    );
+    try {
+      final recipes = await _repository.getUserRecipes();
+      final recipe = await _repository.getRandomRecipe();
+      return RecipesState(
+        userRecipes: recipes
+            .map((recipe) => Recipe.fromEntity(recipe))
+            .toList(),
+        searchResults: [],
+        selectedRecipe: null,
+        randomRecipe: Recipe.fromEntity(recipe),
+        isLoading: false,
+        error: null,
+      );
+    } catch (e) {
+      return RecipesState(
+        userRecipes: [],
+        searchResults: [],
+        selectedRecipe: null,
+        randomRecipe: null,
+        isLoading: false,
+        error: null,
+      );
+    }
   }
 
   Future<void> loadUserRecipes() async {
@@ -113,6 +127,10 @@ class RecipesViewModel extends _$RecipesViewModel {
         isLoading: false,
       );
     }
+  }
+
+  void resetSearchResults() {
+    _updateState(searchResults: []);
   }
 
   void selectRecipe(Recipe recipe) {

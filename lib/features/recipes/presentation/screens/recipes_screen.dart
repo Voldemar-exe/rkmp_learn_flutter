@@ -67,6 +67,10 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
             Tab(text: 'Мои'),
             Tab(text: 'База'),
           ],
+          onTap: (index) {
+            viewModel.resetSearchResults();
+            _searchController.clear();
+          },
         ),
       ),
       body: Column(
@@ -181,7 +185,6 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            heroTag: "fab_random",
             onPressed: viewModel.loadRandomRecipe,
             child: const Icon(Icons.shuffle),
           ),

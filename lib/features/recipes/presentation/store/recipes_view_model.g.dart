@@ -33,7 +33,7 @@ final class RecipesViewModelProvider
   RecipesViewModel create() => RecipesViewModel();
 }
 
-String _$recipesViewModelHash() => r'f24753198825bd68ad8522eeaac391128691efda';
+String _$recipesViewModelHash() => r'cadb5fb51ea2f860e2bfd17e6f7a82098c9ca883';
 
 abstract class _$RecipesViewModel extends $AsyncNotifier<RecipesState> {
   FutureOr<RecipesState> build();
