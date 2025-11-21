@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/features/schedule/domain/entities/schedule_meal_entity.dart';
-import 'package:rkmp_learn_flutter/features/settings/presentation/widgets/meal_tile.dart';
+import 'package:rkmp_learn_flutter/features/schedule/presentation/widgets/meal_tile.dart';
 import '../store/schedule_view_model.dart';
 
 class ScheduleScreen extends ConsumerWidget {
