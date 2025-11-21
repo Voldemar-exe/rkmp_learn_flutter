@@ -21,10 +21,4 @@ class ProfileLocalDataSource {
     _storage['username'] = profile.username;
     _storage['profile_icon_name'] = profile.profileIconName;
   }
-
-  Future<void> updateProfileIcon(String iconName) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    _storage['profile_icon_name'] = iconName;
-  }
 }

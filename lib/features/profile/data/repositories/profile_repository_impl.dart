@@ -36,10 +36,4 @@ class ProfileRepositoryImpl implements ProfileRepository {
     await _localDataSource.saveProfile(profile);
     await _remoteDataSource.saveProfile(profile, userId);
   }
-
-  @override
-  Future<void> updateProfileIcon(String iconName, int userId) async {
-    await _localDataSource.updateProfileIcon(iconName);
-    await _remoteDataSource.updateProfileIcon(iconName, userId);
-  }
 }

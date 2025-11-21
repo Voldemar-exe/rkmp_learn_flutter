@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:rkmp_learn_flutter/features/auth/presentation/store/auth_view_model.dart';
 import 'package:rkmp_learn_flutter/features/profile/data/models/profile.dart';
 import 'package:rkmp_learn_flutter/features/profile/domain/repositories/profile_repository.dart';
 import 'package:rkmp_learn_flutter/features/profile/presentation/states/profile_state.dart';

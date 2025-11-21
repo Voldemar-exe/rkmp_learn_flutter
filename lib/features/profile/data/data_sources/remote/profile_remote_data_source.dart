@@ -51,11 +51,4 @@ class ProfileRemoteDataSource {
       };
     }
   }
-
-  Future<void> updateProfileIcon(String iconName, int userId) async {
-    final index = _profiles.indexWhere((p) => p['userId'] == userId.toString());
-    if (index != -1) {
-      _profiles[index]['profile_icon_name'] = iconName;
-    }
-  }
 }

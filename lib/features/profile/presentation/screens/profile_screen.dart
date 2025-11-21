@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/core/constants/profile_constants.dart';
+import 'package:rkmp_learn_flutter/features/auth/presentation/store/auth_view_model.dart';
 import 'package:rkmp_learn_flutter/features/profile/presentation/screens/icon_picker_dialog.dart';
 import 'package:rkmp_learn_flutter/features/profile/presentation/store/profile_view_model.dart';
+import 'package:rkmp_learn_flutter/shared/presentation/providers/delete_profile_notifier.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -23,12 +25,88 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  String getRemainingText(int remainingCount) {
-    if (remainingCount > 0) {
-      return 'Остально: $remainingCount';
-    } else {
-      return 'Цель выполнена!';
-    }
+  void _showChangeUsernameDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String currentUsername,
+  ) {
+    final controller = TextEditingController(text: currentUsername);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Изменить никнейм'),
+          content: TextField(
+            controller: controller,
+            maxLength: 20,
+            decoration: const InputDecoration(
+              hintText: 'Введите новый никнейм',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('Отмена'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final newUsername = controller.text.trim();
+                if (newUsername.isNotEmpty && newUsername != currentUsername) {
+                  ref
+                      .read(profileViewModelProvider.notifier)
+                      .updateUsername(newUsername);
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Сохранить'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _confirmDeleteAccount(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Удалить профиль?'),
+          content: const Text(
+            'Это действие нельзя отменить. Все данные будут удалены.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('Отмена'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () async {
+                try {
+                  await ref.read(deleteProfileProvider.future);
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    Router.neglect(context, () => context.go('/login'));
+                  }
+                } catch (error) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Ошибка: $error')),
+                    );
+                  }
+                }
+              },
+              child: const Text(
+                'Удалить',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -53,87 +131,84 @@ class ProfileScreen extends ConsumerWidget {
           }
 
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () => _showIconPickerDialog(context, ref),
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                        width: 2,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => _showIconPickerDialog(context, ref),
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 2,
+                        ),
                       ),
+                      child: profile.profileIconName != null
+                          ? Icon(
+                              ProfileIconConstants.profileIcons[profile
+                                  .profileIconName],
+                              size: 40,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
+                            )
+                          : const Icon(Icons.person, size: 40),
                     ),
-                    child: profile.profileIconName != null
-                        ? Icon(
-                            ProfileIconConstants.profileIcons[profile
-                                .profileIconName],
-                            size: 40,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onPrimaryContainer,
-                          )
-                        : const Icon(Icons.person, size: 40),
                   ),
-                ),
-                const SizedBox(height: 9),
-                Text(
-                  'Имя: ${profile.username}',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 9),
+                  Text(
+                    'Имя: ${profile.username}',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                // TODO: replace with fridge and recipes
-                // Text(
-                //   'Цель: ${profile.goal}',
-                //   style: const TextStyle(
-                //     fontSize: 24,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                //   textAlign: TextAlign.center,
-                // ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   getRemainingText(remaining),
-                //   style: TextStyle(
-                //     fontSize: 20,
-                //     color: remaining > 0 ? Colors.orange : Colors.green,
-                //   ),
-                //   textAlign: TextAlign.center,
-                // ),
-                // const SizedBox(height: 20),
-                // ElevatedButton(
-                //   onPressed: () =>
-                //       Router.neglect(context, () => context.go('/tasks-list')),
-                //   style: ElevatedButton.styleFrom(
-                //     fixedSize: const Size(200, 60),
-                //   ),
-                //   child: const Text(
-                //     'Список задач',
-                //     style: TextStyle(fontSize: 20),
-                //   ),
-                // ),
-                // const SizedBox(height: 16),
-                // ElevatedButton.icon(
-                //   onPressed: () => _showGoalInputDialog(context, ref),
-                //   icon: const Icon(Icons.edit),
-                //   label: const Text('Изменить цель'),
-                // ),
-                const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () => _showIconPickerDialog(context, ref),
-                  icon: const Icon(Icons.face),
-                  label: const Text('Поменять иконку'),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () => _showIconPickerDialog(context, ref),
+                    icon: const Icon(Icons.face),
+                    label: const Text('Поменять иконку'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () => _showChangeUsernameDialog(
+                      context,
+                      ref,
+                      profile.username,
+                    ),
+                    icon: const Icon(Icons.edit),
+                    label: const Text('Изменить никнейм'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    onPressed: () => _confirmDeleteAccount(context, ref),
+                    icon: const Icon(Icons.delete, color: Colors.white),
+                    label: const Text(
+                      'Удалить профиль',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      ref.read(authViewModelProvider.notifier).logout();
+                      Router.neglect(context, () => context.go('/login'));
+                    },
+                    icon: const Icon(Icons.exit_to_app),
+                    label: const Text('Выйти'),
+                  ),
+                ],
+              ),
             ),
           );
         },
