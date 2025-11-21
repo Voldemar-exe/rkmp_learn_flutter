@@ -1,5 +1,4 @@
 import 'package:rkmp_learn_flutter/features/statistics/data/models/statistics.dart';
-import 'package:rkmp_learn_flutter/features/statistics/domain/entities/statistics_entity.dart';
 
 class StatisticsState {
   final Statistics? data;

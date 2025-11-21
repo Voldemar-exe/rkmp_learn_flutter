@@ -39,7 +39,6 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
     final viewModel = ref.read(recipesViewModelProvider.notifier);
 
     if (asyncState.isLoading && asyncState.value == null) {
-      print(asyncState.toString());
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 

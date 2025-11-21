@@ -18,7 +18,6 @@ class ScheduleViewModel extends _$ScheduleViewModel {
     final startOfWeek = _getStartOfWeek(now);
     try {
       final schedule = await _repository.getScheduleForWeek(startOfWeek);
-      print(schedule);
       return ScheduleState(
         schedule: schedule,
         currentWeekStart: startOfWeek,

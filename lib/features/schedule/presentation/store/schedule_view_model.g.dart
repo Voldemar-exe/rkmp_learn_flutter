@@ -33,7 +33,7 @@ final class ScheduleViewModelProvider
   ScheduleViewModel create() => ScheduleViewModel();
 }
 
-String _$scheduleViewModelHash() => r'a62cf9cf45e68be0d8fe50ceff4c8039b6f87366';
+String _$scheduleViewModelHash() => r'26c0ba241c05ab71bf62ac2c7f7c2dc172fdd645';
 
 abstract class _$ScheduleViewModel extends $AsyncNotifier<ScheduleState> {
   FutureOr<ScheduleState> build();

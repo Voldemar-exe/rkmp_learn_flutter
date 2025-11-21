@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rkmp_learn_flutter/features/recipes/data/models/recipe.dart';
 import 'package:rkmp_learn_flutter/features/schedule/domain/entities/schedule_meal_entity.dart';
 import 'package:rkmp_learn_flutter/shared/presentation/providers/user_recipes_notifier.dart';
 import '../store/schedule_view_model.dart';

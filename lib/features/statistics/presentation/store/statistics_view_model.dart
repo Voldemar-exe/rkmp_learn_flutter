@@ -15,7 +15,6 @@ class StatisticsViewModel extends _$StatisticsViewModel {
     _repository = GetIt.I<StatisticsLocalDataSource>();
     try {
       final data = await _repository.calculateStatisticsForThisWeek();
-      print(data.toJson());
       return StatisticsState(
         data: Statistics.fromEntity(data),
         isLoading: false,

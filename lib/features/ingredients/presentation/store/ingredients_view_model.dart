@@ -2,8 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rkmp_learn_flutter/features/ingredients/data/models/ingredient.dart';
 import 'package:rkmp_learn_flutter/features/ingredients/domain/repositories/ingredient_repository.dart';
-
-import '../states/ingredients_list_state.dart';
+import 'package:rkmp_learn_flutter/features/ingredients/presentation/states/ingredients_list_state.dart';
 
 part 'ingredients_view_model.g.dart';
 
