@@ -15,14 +15,6 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Настройки')),
       body: settingsState.when(
         data: (state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state.isError) {
-            return const Center(child: Text('Ошибка загрузки настроек'));
-          }
-
           final settings = state.settings;
           if (settings == null) {
             return const Center(child: Text('Настройки недоступны'));
