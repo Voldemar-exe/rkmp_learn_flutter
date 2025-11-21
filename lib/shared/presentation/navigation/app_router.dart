@@ -6,7 +6,12 @@ import 'package:rkmp_learn_flutter/features/ingredients/presentation/screens/ing
 import 'package:rkmp_learn_flutter/features/profile/presentation/screens/profile_screen.dart';
 import 'package:rkmp_learn_flutter/features/recipes/presentation/screens/recipe_details_screen.dart';
 import 'package:rkmp_learn_flutter/features/recipes/presentation/screens/recipes_screen.dart';
+import 'package:rkmp_learn_flutter/features/schedule/domain/entities/schedule_meal_entity.dart';
+import 'package:rkmp_learn_flutter/features/schedule/presentation/screens/schedule_screen.dart';
+import 'package:rkmp_learn_flutter/features/schedule/presentation/screens/schedule_select_recipe_screen.dart';
 import 'package:rkmp_learn_flutter/features/settings/presentation/screens/settings_screen.dart';
+import 'package:rkmp_learn_flutter/features/statistics/presentation/screens/statistics_screen.dart';
+import 'package:rkmp_learn_flutter/shared/presentation/screens/home_screen.dart';
 
 class AppRouter {
   late final GoRouter _router = GoRouter(
@@ -55,7 +60,32 @@ class AppRouter {
             builder: (context, state) => IngredientAddScreen(),
           ),
         ]
-      )
+      ),
+      GoRoute(
+        path: '/schedule',
+        builder: (context, state) => ScheduleScreen(),
+        routes: [
+          GoRoute(
+            path: 'select_recipe',
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>;
+              final date = extra['date'] as DateTime;
+              final mealTime = extra['mealTime'] as MealTime;
+              return ScheduleSelectRecipeScreen(date: date, mealTime: mealTime);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/statistics',
+        name: 'statistics',
+        builder: (context, state) => StatisticsScreen(),
+      ),
+      GoRoute(
+        path: '/home',
+        name: 'home',
+        builder: (context, state) => HomeScreen(),
+      ),
     ],
   );
 
