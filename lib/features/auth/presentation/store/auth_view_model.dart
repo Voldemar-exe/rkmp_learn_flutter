@@ -47,9 +47,6 @@ class AuthViewModel extends _$AuthViewModel {
         passwordController.text.trim()
       );
       if (user != null) {
-        ref
-            .read(authProvider.notifier)
-            .updateState(Authenticated(user: User.fromEntity(user)));
         onSuccess();
       } else {
         onError('Login failed');
@@ -71,9 +68,6 @@ class AuthViewModel extends _$AuthViewModel {
         loginController.text.trim(),
       );
       if (user != null) {
-        ref
-            .read(authProvider.notifier)
-            .updateState(Authenticated(user: User.fromEntity(user)));
         onSuccess();
       } else {
         onError('Registration failed');
@@ -85,6 +79,5 @@ class AuthViewModel extends _$AuthViewModel {
 
   Future<void> logout() async {
     await _repository.logout();
-    ref.read(authProvider.notifier).updateState(Unauthenticated());
   }
 }

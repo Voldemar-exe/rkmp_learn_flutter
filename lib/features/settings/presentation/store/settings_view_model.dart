@@ -35,11 +35,9 @@ class SettingsViewModel extends _$SettingsViewModel {
   Future<void> updateSettings(AppSettingsModel settings) async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
     try {
-      final user = (ref.read(authProvider) as Authenticated).user;
+      final user = (ref.read(checkAuthStatusProvider) as Authenticated).user;
       await _settingsRepository.saveSettings(settings.toEntity(), user.id);
-      state = AsyncValue.data(
-        state.value!.copyWith(settings: settings)
-      );
+      state = AsyncValue.data(state.value!.copyWith(settings: settings));
     } catch (e) {
       // TEST
       throw Exception(e);
@@ -49,17 +47,17 @@ class SettingsViewModel extends _$SettingsViewModel {
 
   Future<void> clearSettings() async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
-    final user = ref.read(authProvider);
+    final user = ref.read(checkAuthStatusProvider);
     try {
       final userId = (user as Authenticated).user.id;
       await _settingsRepository.clearSettings(userId);
       state = AsyncValue.data(
-        state.value!.copyWith(settings: AppSettingsModel.defaultSettings())
+        state.value!.copyWith(settings: AppSettingsModel.defaultSettings()),
       );
     } catch (e) {
       if (user is Unauthenticated) {
         state = AsyncValue.data(
-          state.value!.copyWith(settings: AppSettingsModel.defaultSettings())
+          state.value!.copyWith(settings: AppSettingsModel.defaultSettings()),
         );
       }
     }
@@ -69,7 +67,9 @@ class SettingsViewModel extends _$SettingsViewModel {
   Future<void> updateThemeMode(ThemeMode themeMode) async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
     if (state.value!.settings != null) {
-      final updatedSettings = state.value!.settings!.copyWith(themeMode: themeMode);
+      final updatedSettings = state.value!.settings!.copyWith(
+        themeMode: themeMode,
+      );
       await updateSettings(updatedSettings);
     }
     state = AsyncValue.data(state.value!.copyWith(isLoading: false));
@@ -78,36 +78,11 @@ class SettingsViewModel extends _$SettingsViewModel {
   Future<void> updatePrimaryColor(Color color) async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
     if (state.value!.settings != null) {
-      final updatedSettings = state.value!.settings!.copyWith(primaryColor: color);
+      final updatedSettings = state.value!.settings!.copyWith(
+        primaryColor: color,
+      );
       await updateSettings(updatedSettings);
     }
     state = AsyncValue.data(state.value!.copyWith(isLoading: false));
   }
-
-  // Future<void> updateLanguageCode(String languageCode) async {
-  //   if (state.settings != null) {
-  //     final updatedSettings = state.settings!.copyWith(
-  //         languageCode: languageCode);
-  //     await updateSettings(updatedSettings);
-  //   }
-  // }
-  //
-  // Future<void> updateVibrationEnabled(bool enabled) async {
-  //   if (state.settings != null) {
-  //     final updatedSettings = state.settings!.copyWith(
-  //       isVibrationEnabled: enabled.toString(),
-  //     );
-  //     await updateSettings(updatedSettings);
-  //   }
-  // }
-  //
-  // Future<void> updateSoundEnabled(bool enabled) async {
-  //   if (state.settings != null) {
-  //     final updatedSettings = state.settings!.copyWith(
-  //       isSoundEnabled: enabled.toString(),
-  //     );
-  //     await updateSettings(updatedSettings);
-  //   }
-  // }
-
 }

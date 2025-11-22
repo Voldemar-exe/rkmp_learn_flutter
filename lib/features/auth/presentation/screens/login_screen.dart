@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
         child: AuthForm(
           authType: AuthType.login,
           onSuccess: () {
-            context.go('/profile');
+            context.go('/home');
           },
         ),
       ),

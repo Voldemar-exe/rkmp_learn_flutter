@@ -12,7 +12,7 @@ class RegisterScreen extends StatelessWidget {
         child: AuthForm(
           authType: AuthType.register,
           onSuccess: () {
-            context.go('/profile');
+            context.go('/home');
           },
         ),
       ),

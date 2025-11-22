@@ -1,26 +1,16 @@
+import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:rkmp_learn_flutter/shared/data/models/user.dart';
+import 'package:rkmp_learn_flutter/shared/domain/use_cases/get_user_use_case.dart';
 import 'package:rkmp_learn_flutter/shared/presentation/states/auth_state.dart';
 
 part 'auth_notifier.g.dart';
 
 @riverpod
-class AuthNotifier extends _$AuthNotifier {
-  @override
-  AuthState build() {
-    // FOR TEST
-    // return Authenticated(
-    //   user: User(
-    //     id: 1,
-    //     login: 'brendy',
-    //     createdAt: DateTime.now(),
-    //   ),
-    // );
-
-    return const Unauthenticated();
+Future<AuthState> checkAuthStatus(Ref ref) async {
+  final useCase = GetIt.I<GetUserUseCase>();
+  final user = await useCase.call();
+  if (user != null) {
+    return Authenticated(user: user);
   }
-
-  void updateState(AuthState state) {
-    state = state;
-  }
+  return const Unauthenticated();
 }

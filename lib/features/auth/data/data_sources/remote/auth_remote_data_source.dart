@@ -7,14 +7,14 @@ class AuthRemoteDataSource {
       'id': '1',
       'login': 'jonny_123',
       'email': 'john@example.com',
-      'password': 'Password123',
+      'password': '123',
       'created_at': DateTime.now().toIso8601String(),
     },
     {
       'id': '2',
       'login': 'jane_123',
       'email': 'smith@example.com',
-      'password': 'Password123',
+      'password': '12345',
       'created_at': DateTime.now().toIso8601String(),
     },
   ];

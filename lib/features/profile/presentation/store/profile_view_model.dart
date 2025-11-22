@@ -22,20 +22,14 @@ class ProfileViewModel extends _$ProfileViewModel {
 
   Future<ProfileState> _loadProfile() async {
     try {
-      final userId = (ref.read(authProvider) as Authenticated).user.id;
+      final user = await ref.read(checkAuthStatusProvider.future);
+      final userId = (user as Authenticated).user.id;
       final entity = await _profileRepository.getProfile(userId);
       final model = Profile.fromEntity(entity);
 
-      return ProfileState(
-        profile: model,
-        isLoading: false,
-        isError: false,
-      );
+      return ProfileState(profile: model, isLoading: false, isError: false);
     } catch (e) {
-      return ProfileState(
-        isLoading: false,
-        isError: true,
-      );
+      return ProfileState(isLoading: false, isError: true);
     }
   }
 
@@ -43,22 +37,16 @@ class ProfileViewModel extends _$ProfileViewModel {
     state = const AsyncValue.loading();
 
     try {
-      final userId = (ref.read(authProvider) as Authenticated).user.id;
+      final user = await ref.read(checkAuthStatusProvider.future);
+      final userId = (user as Authenticated).user.id;
       await _profileRepository.saveProfile(profile.toEntity(), userId);
 
       state = AsyncValue.data(
-          ProfileState(
-            profile: profile,
-            isLoading: false,
-            isError: false,
-          )
+        ProfileState(profile: profile, isLoading: false, isError: false),
       );
     } catch (e) {
       state = AsyncValue.data(
-          const ProfileState(
-            isLoading: false,
-            isError: true,
-          )
+        const ProfileState(isLoading: false, isError: true),
       );
     }
   }
@@ -82,9 +70,7 @@ class ProfileViewModel extends _$ProfileViewModel {
   Future<void> updateProfileIcon(String iconName) async {
     if (state.hasValue && state.value!.profile != null) {
       final currentProfile = state.value!.profile!;
-      final updatedProfile = currentProfile.copyWith(
-        profileIconName: iconName,
-      );
+      final updatedProfile = currentProfile.copyWith(profileIconName: iconName);
       await updateProfile(updatedProfile);
     }
   }
