@@ -47,31 +47,18 @@ class SettingsScreen extends ConsumerWidget {
 
                 ListTile(
                   title: const Text('Основной цвет'),
-                  subtitle: Text('Текущий цвет'),
-                  trailing: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: settings.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey),
+                  subtitle: const Text('Текущий цвет'),
+                  trailing: IconButton(
+                    iconSize: 32,
+                    icon: const Icon(
+                        Icons.circle
                     ),
-                  ),
+                    color: settings.primaryColor,
+                    onPressed: () {
+                      _showColorPicker(context, ref, settings.primaryColor);
+                    },
+                  )
                 ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _showColorPicker(context, ref, settings.primaryColor);
-                        },
-                        child: const Text('Выбрать цвет'),
-                      ),
-                    ),
-                  ],
-                ),
-
                 const SizedBox(height: 16),
               ],
             ),
