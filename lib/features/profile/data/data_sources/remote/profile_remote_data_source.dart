@@ -30,6 +30,25 @@ class ProfileRemoteDataSource {
     }
   }
 
+  Future<bool> addProfile(String login, int userId) async {
+    try {
+      _profiles.add({
+        'id': (_profiles.length + 1).toString(),
+        'userId': userId.toString(),
+        'username': login,
+        'profile_icon_name': 'person',
+        'created_at': DateTime.now().toIso8601String(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> deleteProfile(int userId) async {
+    _profiles.removeWhere((p) => p['userId'] == userId.toString());
+  }
+
   Future<void> saveProfile(ProfileEntity profile, int userId) async {
     final index = _profiles.indexWhere((p) => p['userId'] == userId.toString());
 

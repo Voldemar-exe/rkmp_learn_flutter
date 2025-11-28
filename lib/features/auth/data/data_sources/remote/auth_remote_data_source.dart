@@ -1,7 +1,9 @@
+import 'package:get_it/get_it.dart';
+import 'package:rkmp_learn_flutter/features/profile/data/data_sources/remote/profile_remote_data_source.dart';
+
 import '../../../domain/entities/user_entity.dart';
 
 class AuthRemoteDataSource {
-
   static final List<Map<String, dynamic>> _users = [
     {
       'id': '1',
@@ -20,12 +22,11 @@ class AuthRemoteDataSource {
   ];
 
   Future<UserEntity?> login(String login, String password) async {
-
     // Delay simulation
     await Future.delayed(const Duration(milliseconds: 500));
 
     final user = _users.firstWhere(
-          (u) => u['login'] == login && u['password'] == password,
+      (u) => u['login'] == login && u['password'] == password,
       orElse: () => throw Exception('Invalid credentials'),
     );
 
@@ -62,6 +63,12 @@ class AuthRemoteDataSource {
 
     _users.add(newUser);
 
+    // SIMULATION OF ADDING PROFILE ROW IN ANOTHER TABLE
+    GetIt.I<ProfileRemoteDataSource>().addProfile(
+      login,
+      int.parse(newUser['id']!),
+    );
+
     // TODO: error with null
     return UserEntity(
       id: int.parse(newUser['id']!),
@@ -73,5 +80,8 @@ class AuthRemoteDataSource {
 
   Future<void> deleteProfile(int userId) async {
     _users.removeWhere((u) => u['id'] == userId.toString());
+
+    // SIMULATION OF DELETING PROFILE ROW IN ANOTHER TABLE
+    GetIt.I<ProfileRemoteDataSource>().deleteProfile(userId);
   }
 }
