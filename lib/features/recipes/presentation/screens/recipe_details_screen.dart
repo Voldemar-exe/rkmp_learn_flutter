@@ -59,7 +59,16 @@ class RecipeDetailScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Ingredients:',
+                'Инструкция:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Text(
+                recipe.instructions,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Ингредиенты:',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               ...recipe.ingredientsWithMeasure.entries.map(
@@ -83,15 +92,6 @@ class RecipeDetailScreen extends ConsumerWidget {
                         : Colors.red.withValues(alpha: 0.1),
                   );
                 },
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Instructions:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Text(
-                recipe.instructions,
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
