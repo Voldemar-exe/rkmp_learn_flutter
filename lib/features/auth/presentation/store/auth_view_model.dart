@@ -63,9 +63,9 @@ class AuthViewModel extends _$AuthViewModel {
   }) async {
     try {
       final user = await _repository.register(
+        loginController.text.trim(),
         emailController.text.trim(),
         passwordController.text.trim(),
-        loginController.text.trim(),
       );
       if (user != null) {
         onSuccess();

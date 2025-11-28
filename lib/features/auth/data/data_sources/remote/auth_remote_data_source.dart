@@ -56,7 +56,7 @@ class AuthRemoteDataSource {
       'id': '${DateTime.now().millisecondsSinceEpoch}',
       'login': login,
       'email': email.toString(),
-      'password': password,
+      'password': password.toString(),
       'created_at': DateTime.now().toIso8601String(),
     };
 
