@@ -35,8 +35,9 @@ class SettingsViewModel extends _$SettingsViewModel {
   Future<void> updateSettings(AppSettingsModel settings) async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
     try {
-      final user = (ref.read(checkAuthStatusProvider) as Authenticated).user;
-      await _settingsRepository.saveSettings(settings.toEntity(), user.id);
+      final user = await ref.read(checkAuthStatusProvider.future);
+      final userId = (user as Authenticated).user.id;
+      await _settingsRepository.saveSettings(settings.toEntity(), userId);
       state = AsyncValue.data(state.value!.copyWith(settings: settings));
     } catch (e) {
       // TEST
@@ -47,7 +48,7 @@ class SettingsViewModel extends _$SettingsViewModel {
 
   Future<void> clearSettings() async {
     state = AsyncValue.data(state.value!.copyWith(isLoading: true));
-    final user = ref.read(checkAuthStatusProvider);
+    final user = await ref.read(checkAuthStatusProvider.future);
     try {
       final userId = (user as Authenticated).user.id;
       await _settingsRepository.clearSettings(userId);
