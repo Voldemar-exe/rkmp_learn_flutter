@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/data_sources/local/auth_local_data_source.dart';
 import '../data/data_sources/remote/auth_remote_data_source.dart';
 import '../domain/repositories/auth_repository.dart';
@@ -8,10 +9,14 @@ void registerAuthDependencies() {
   GetIt.I.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSource(),
   );
-  GetIt.I.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
+  GetIt.I.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSource(GetIt.I<SharedPreferencesAsync>()),
+  );
 
   GetIt.I.registerLazySingleton<AuthRepository>(
-    () =>
-        AuthRepositoryImpl(remoteDataSource: GetIt.I(), localDataSource: GetIt.I()),
+    () => AuthRepositoryImpl(
+      remoteDataSource: GetIt.I(),
+      localDataSource: GetIt.I(),
+    ),
   );
 }
