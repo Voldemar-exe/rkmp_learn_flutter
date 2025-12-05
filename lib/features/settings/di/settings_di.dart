@@ -4,10 +4,11 @@ import 'package:rkmp_learn_flutter/features/settings/data/data_sources/remote/se
 import 'package:rkmp_learn_flutter/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:rkmp_learn_flutter/features/settings/domain/repositories/settings_repository.dart';
 import 'package:rkmp_learn_flutter/features/settings/presentation/store/settings_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void registerSettingsDependencies() {
   GetIt.I.registerLazySingleton<SettingsLocalDataSource>(
-    () => SettingsLocalDataSource(),
+    () => SettingsLocalDataSource(GetIt.I<SharedPreferencesAsync>()),
   );
   GetIt.I.registerLazySingleton<SettingsRemoteDataSource>(
     () => SettingsRemoteDataSource(),
@@ -15,8 +16,8 @@ void registerSettingsDependencies() {
 
   GetIt.I.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
-      SettingsLocalDataSource(),
-      SettingsRemoteDataSource(),
+      GetIt.I<SettingsLocalDataSource>(),
+      GetIt.I<SettingsRemoteDataSource>(),
     ),
   );
 

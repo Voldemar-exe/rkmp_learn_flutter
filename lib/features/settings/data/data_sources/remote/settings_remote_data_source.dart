@@ -49,7 +49,7 @@ class SettingsRemoteDataSource {
     if (userId == null) {
       _settings.add({
         'id': _settings.length.toString(),
-        'userId': userId,
+        'userId': userId.toString(),
         'theme': settings.themeMode,
         'primaryColor': settings.primaryColor.value,
         'created_at': DateTime.now().toIso8601String(),
@@ -59,7 +59,14 @@ class SettingsRemoteDataSource {
         (s) => int.parse(s['userId']) == userId,
       );
       if (index == -1) {
-        throw Exception('User not found');
+        _settings.add({
+          'id': _settings.length.toString(),
+          'userId': userId.toString(),
+          'theme': settings.themeMode,
+          'primaryColor': settings.primaryColor.value,
+          'created_at': DateTime.now().toIso8601String(),
+        });
+        return;
       }
       _settings[index] = {
         'userId': userId.toString(),

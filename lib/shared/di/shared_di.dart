@@ -3,8 +3,13 @@ import 'package:rkmp_learn_flutter/shared/domain/use_cases/delete_profile_use_ca
 import 'package:rkmp_learn_flutter/shared/domain/use_cases/get_user_ingredients_use_case.dart';
 import 'package:rkmp_learn_flutter/shared/domain/use_cases/get_user_recipes_use_case.dart';
 import 'package:rkmp_learn_flutter/shared/domain/use_cases/get_user_use_case.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void registerSharedDependencies() {
+  GetIt.I.registerLazySingleton<SharedPreferencesAsync>(
+      () => SharedPreferencesAsync(),
+  );
+
   GetIt.I.registerLazySingleton<GetUserRecipesUseCase>(
     () => GetUserRecipesUseCase(GetIt.I()),
   );
