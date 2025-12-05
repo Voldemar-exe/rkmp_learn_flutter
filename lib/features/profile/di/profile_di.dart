@@ -4,10 +4,11 @@ import 'package:rkmp_learn_flutter/features/profile/data/data_sources/remote/pro
 import 'package:rkmp_learn_flutter/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:rkmp_learn_flutter/features/profile/domain/repositories/profile_repository.dart';
 import 'package:rkmp_learn_flutter/features/profile/presentation/store/profile_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void registerProfileDependencies() {
   GetIt.I.registerLazySingleton<ProfileLocalDataSource>(
-    () => ProfileLocalDataSource(),
+    () => ProfileLocalDataSource(GetIt.I<SharedPreferencesAsync>()),
   );
   GetIt.I.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSource(),
