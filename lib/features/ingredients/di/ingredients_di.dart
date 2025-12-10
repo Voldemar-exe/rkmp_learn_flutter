@@ -4,11 +4,14 @@ import 'package:rkmp_learn_flutter/features/ingredients/data/data_sources/remote
 import 'package:rkmp_learn_flutter/features/ingredients/data/repositories/ingredient_repository_impl.dart';
 import 'package:rkmp_learn_flutter/features/ingredients/domain/repositories/ingredient_repository.dart';
 import 'package:rkmp_learn_flutter/features/ingredients/presentation/store/ingredients_view_model.dart';
+import 'package:rkmp_learn_flutter/shared/data/database/dao/ingredient_dao.dart';
 
 
 void registerIngredientsDependencies() {
   GetIt.I.registerLazySingleton<IngredientsLocalDataSource>(
-    () => IngredientsLocalDataSource(),
+    () => IngredientsLocalDataSource(
+      GetIt.I<IngredientDao>(),
+    ),
   );
   GetIt.I.registerLazySingleton<IngredientsRemoteDataSource>(
     () => IngredientsRemoteDataSource(),

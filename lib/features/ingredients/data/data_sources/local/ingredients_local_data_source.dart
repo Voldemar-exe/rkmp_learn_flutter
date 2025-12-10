@@ -1,81 +1,57 @@
-
+import 'package:rkmp_learn_flutter/shared/data/database/dao/ingredient_dao.dart';
+import 'package:rkmp_learn_flutter/shared/data/database/database.dart';
 
 import '../../../domain/entities/ingredient_entity.dart';
 
 class IngredientsLocalDataSource {
-  static final List<Map<String, dynamic>> _localIngredients = [
-    {'id': 1, 'name': 'Chicken Breast', 'measureUnit': 'g', 'amount': 500.0},
-    {'id': 2, 'name': 'Rice', 'measureUnit': 'g', 'amount': 1000.0},
-    {'id': 3, 'name': 'Tomato', 'measureUnit': 'pcs', 'amount': 5.0},
-    {'id': 4, 'name': 'Salt', 'measureUnit': 'tsp', 'amount': 10.0},
-  ];
+  final IngredientDao _dao;
 
-  Future<void> _simulateDelay() async {
-    await Future.delayed(const Duration(milliseconds: 100));
+  IngredientsLocalDataSource(this._dao);
+
+  Stream<List<IngredientEntity>> watchUserIngredients() async* {
+    await for (final ingredients in _dao.watchAllIngredients()) {
+      yield ingredients.map((i) => _mapToEntity(i)).toList();
+    }
   }
 
   Future<List<IngredientEntity>> getUserIngredients() async {
-    await _simulateDelay();
-    return _localIngredients.map(_mapToEntity).toList();
+    final ingredients = await _dao.getAllIngredients();
+    return ingredients.map((i) => _mapToEntity(i)).toList();
   }
 
   Future<void> addOrUpdateIngredient(IngredientEntity ingredient) async {
-    await _simulateDelay();
-    final index = _localIngredients.indexWhere(
-      (ing) => ing['id'] == ingredient.id,
+    await _dao.insertOrUpdateIngredient(
+      ingredient.name,
+      ingredient.measureUnit,
+      ingredient.amount,
+      ingredient.id,
     );
-    if (index != -1) {
-      _localIngredients[index] = {
-        'id': ingredient.id,
-        'name': ingredient.name,
-        'measureUnit': ingredient.measureUnit,
-        'amount': ingredient.amount,
-      };
-    } else {
-      _localIngredients.add({
-        'id': ingredient.id,
-        'name': ingredient.name,
-        'measureUnit': ingredient.measureUnit,
-        'amount': ingredient.amount,
-      });
-    }
   }
 
   Future<void> removeIngredient(int ingredientId) async {
-    await _simulateDelay();
-    _localIngredients.removeWhere((ing) => ing['id'] == ingredientId);
+    await _dao.deleteIngredient(ingredientId);
   }
 
   Future<void> addAmount(int ingredientId, double amount) async {
-    await _simulateDelay();
-    final ingredient = _localIngredients.firstWhere(
-      (ing) => ing['id'] == ingredientId,
-      orElse: () => throw Exception('Ingredient not found'),
+    final current = await _dao.getAllIngredients().then(
+      (list) => list.firstWhere(
+        (i) => i.id == ingredientId,
+        orElse: () => throw Exception('Not found'),
+      ),
     );
-    ingredient['amount'] = (ingredient['amount'] as double) + amount;
+    await _dao.updateAmount(ingredientId, current.amount + amount);
   }
 
   Future<void> consumeAmount(int ingredientId, double amount) async {
-    await _simulateDelay();
-    final ingredient = _localIngredients.firstWhere(
-      (ing) => ing['id'] == ingredientId,
-      orElse: () => throw Exception('Ingredient not found'),
-    );
-    final currentAmount = ingredient['amount'] as double;
-    final newAmount = currentAmount - amount;
-    if (newAmount < 0) {
-      ingredient['amount'] = 0.0;
-    } else {
-      ingredient['amount'] = newAmount;
-    }
+    await _dao.consumeAmount(ingredientId, amount);
   }
 
-  IngredientEntity _mapToEntity(Map<String, dynamic> map) {
+  IngredientEntity _mapToEntity(Ingredient i) {
     return IngredientEntity(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      measureUnit: map['measureUnit'] as String?,
-      amount: map['amount'] as double?,
+      id: i.id,
+      name: i.name,
+      measureUnit: i.measureUnit,
+      amount: i.amount,
     );
   }
 }

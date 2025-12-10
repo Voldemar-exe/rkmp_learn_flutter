@@ -17,6 +17,9 @@ class IngredientsViewModel extends _$IngredientsViewModel {
     try {
       final ingredients = await _repository.getUserIngredients();
       final availableIngredients = await _repository.getAvailableIngredients();
+
+      _listenToDatabaseChanges();
+
       return IngredientsListState(
         ingredients: ingredients
             .map((entity) => Ingredient.fromEntity(entity))
@@ -37,6 +40,16 @@ class IngredientsViewModel extends _$IngredientsViewModel {
         error: 'Failed to load ingredients: $e',
       );
     }
+  }
+
+  void _listenToDatabaseChanges() {
+    _repository.watchUserIngredients().listen((ingredients) {
+      _updateState(
+        ingredients: ingredients
+            .map((ingredient) => Ingredient.fromEntity(ingredient))
+            .toList(),
+      );
+    });
   }
 
   Future<void> loadUserIngredients() async {
@@ -113,7 +126,7 @@ class IngredientsViewModel extends _$IngredientsViewModel {
       await _repository.addOrUpdateIngredient(ingredient);
       await loadUserIngredients();
     } catch (e) {
-      _updateState(error: 'Failed to add/update ingredient');
+      _updateState(error: 'Failed to add/update ingredient with: $e');
     }
   }
 

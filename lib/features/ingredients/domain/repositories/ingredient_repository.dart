@@ -1,5 +1,8 @@
 import 'package:rkmp_learn_flutter/features/ingredients/domain/entities/ingredient_entity.dart';
+
 abstract class IngredientRepository {
+  Stream<List<IngredientEntity>> watchUserIngredients();
+
   Future<List<IngredientEntity>> getUserIngredients();
 
   Future<List<IngredientEntity>> getAvailableIngredients();

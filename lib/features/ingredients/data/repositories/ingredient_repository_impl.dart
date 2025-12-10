@@ -11,6 +11,11 @@ class IngredientRepositoryImpl implements IngredientRepository {
   IngredientRepositoryImpl(this._localDataSource, this._remoteDataSource);
 
   @override
+  Stream<List<IngredientEntity>> watchUserIngredients() {
+    return _localDataSource.watchUserIngredients();
+  }
+
+  @override
   Future<List<IngredientEntity>> getUserIngredients() async {
     return await _localDataSource.getUserIngredients();
   }
