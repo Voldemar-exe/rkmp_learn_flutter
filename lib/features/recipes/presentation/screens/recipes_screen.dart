@@ -114,7 +114,7 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
                         trailing: const Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           viewModel.selectRecipe(state.randomRecipe!);
-                          context.push('/recipes/recipe_details');
+                          context.push('/home/recipes/recipe_details');
                         },
                       ),
                     ],
@@ -234,7 +234,7 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
             onTap: () {
               viewModel.selectRecipe(recipe);
               // _searchController.dispose();
-              context.push('/recipes/recipe_details');
+              context.push('/home/recipes/recipe_details');
             },
           ),
         );

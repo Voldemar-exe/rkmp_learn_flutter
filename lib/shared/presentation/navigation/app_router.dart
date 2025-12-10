@@ -18,6 +18,10 @@ class AppRouter {
     initialLocation: '/login',
     routes: [
       GoRoute(
+        path: '/',
+        redirect: (_, __) => '/home'
+      ),
+      GoRoute(
         path: '/login',
         name: 'login',
         builder: (context, state) => LoginScreen(),
@@ -27,64 +31,68 @@ class AppRouter {
         name: 'register',
         builder: (context, state) => RegisterScreen(),
       ),
-      GoRoute(
-        path: '/profile',
-        name: 'profile',
-        builder: (context, state) => ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        name: 'settings',
-        builder: (context, state) => SettingsScreen(),
-      ),
-      GoRoute(
-          path: '/recipes',
-          name: 'recipes',
-          builder: (context, state) => RecipesScreen(),
-          routes: [
-            GoRoute(
-              path: '/recipe_details',
-              name: 'recipe_details',
-              builder: (context, state) => RecipeDetailScreen()
-            ),
-          ]
-      ),
-      GoRoute(
-        path: '/ingredients',
-        name: 'ingredients',
-        builder: (context, state) => IngredientsListScreen(),
-        routes: [
-          GoRoute(
-            path: '/add',
-            name: 'ingredient_add',
-            builder: (context, state) => IngredientAddScreen(),
-          ),
-        ]
-      ),
-      GoRoute(
-        path: '/schedule',
-        builder: (context, state) => ScheduleScreen(),
-        routes: [
-          GoRoute(
-            path: 'select_recipe',
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              final date = extra['date'] as DateTime;
-              final mealTime = extra['mealTime'] as MealTime;
-              return ScheduleSelectRecipeScreen(date: date, mealTime: mealTime);
-            },
-          ),
-        ],
-      ),
-      GoRoute(
-        path: '/statistics',
-        name: 'statistics',
-        builder: (context, state) => StatisticsScreen(),
-      ),
+
       GoRoute(
         path: '/home',
         name: 'home',
         builder: (context, state) => HomeScreen(),
+        routes: [
+          GoRoute(
+            path: '/profile',
+            name: 'profile',
+            builder: (context, state) => ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            name: 'settings',
+            builder: (context, state) => SettingsScreen(),
+          ),
+          GoRoute(
+            path: '/recipes',
+            name: 'recipes',
+            builder: (context, state) => RecipesScreen(),
+            routes: [
+              GoRoute(
+                path: '/recipe_details',
+                name: 'recipe_details',
+                builder: (context, state) => RecipeDetailScreen(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: '/ingredients',
+            name: 'ingredients',
+            builder: (context, state) => IngredientsListScreen(),
+            routes: [
+              GoRoute(
+                path: '/add',
+                name: 'ingredient_add',
+                builder: (context, state) => IngredientAddScreen(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: '/schedule',
+            name: 'schedule',
+            builder: (context, state) => ScheduleScreen(),
+            routes: [
+              GoRoute(
+                path: '/select_recipe',
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  final date = extra['date'] as DateTime;
+                  final mealTime = extra['mealTime'] as MealTime;
+                  return ScheduleSelectRecipeScreen(date: date, mealTime: mealTime);
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: '/statistics',
+            name: 'statistics',
+            builder: (context, state) => StatisticsScreen(),
+          ),
+        ],
       ),
     ],
   );

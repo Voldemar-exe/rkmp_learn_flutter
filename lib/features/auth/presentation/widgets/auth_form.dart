@@ -118,8 +118,10 @@ class AuthForm extends ConsumerWidget {
               TextButton(
                 onPressed: () {
                   if (isRegisterForm) {
+                    print('login');
                     context.go('/login');
                   } else {
+                    print('register');
                     context.go('/register');
                   }
                 },

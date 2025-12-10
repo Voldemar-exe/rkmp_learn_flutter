@@ -12,7 +12,7 @@ class IngredientsListScreen extends ConsumerWidget {
     final asyncState = ref.watch(ingredientsViewModelProvider);
     final viewModel = ref.read(ingredientsViewModelProvider.notifier);
 
-    if (asyncState.isLoading || asyncState.value == null ) {
+    if (asyncState.isLoading || asyncState.value == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
@@ -43,12 +43,20 @@ class IngredientsListScreen extends ConsumerWidget {
                 final ingredient = state.ingredients[index];
                 return Card(
                   child: ListTile(
-                    title: Text(ingredient.name),
+                    title: Flexible(
+                      child: Text(
+                        ingredient.name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
                     subtitle: Text(
                       '${ingredient.amount ?? 0} ${ingredient.measureUnit ?? ''}',
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+
                       children: [
                         IconButton(
                           icon: const Icon(Icons.remove, size: 20),
@@ -65,7 +73,6 @@ class IngredientsListScreen extends ConsumerWidget {
                           onPressed: () =>
                               viewModel.consumeAmount(ingredient.id, 1.0),
                         ),
-                        const VerticalDivider(),
                         IconButton(
                           icon: const Icon(Icons.add, size: 12),
                           onPressed: () =>
@@ -81,7 +88,6 @@ class IngredientsListScreen extends ConsumerWidget {
                           onPressed: () =>
                               viewModel.addAmount(ingredient.id, 100.0),
                         ),
-                        const VerticalDivider(),
                         IconButton(
                           icon: const Icon(
                             Icons.delete_outline,
@@ -102,7 +108,7 @@ class IngredientsListScreen extends ConsumerWidget {
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/ingredients/add'),
+        onPressed: () => context.push('/home/ingredients/add'),
         child: const Icon(Icons.add),
       ),
     );
@@ -120,7 +126,9 @@ class IngredientsListScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Изменить количество (${ingredient.name} ${ingredient.measureUnit})'),
+        title: Text(
+          'Изменить количество (${ingredient.name} ${ingredient.measureUnit})',
+        ),
         content: TextField(
           controller: amountController,
           decoration: const InputDecoration(hintText: 'Количество'),

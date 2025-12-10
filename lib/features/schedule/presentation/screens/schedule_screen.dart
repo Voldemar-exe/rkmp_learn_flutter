@@ -79,7 +79,7 @@ class ScheduleScreen extends ConsumerWidget {
                         mealTime: time,
                         meal: dayMeals[time],
                         onTap: () => context.push(
-                          '/schedule/select_recipe',
+                          '/home/schedule/select_recipe',
                           extra: {'date': dayDate, 'mealTime': time},
                         ),
                         onActionSelected: (value) {
