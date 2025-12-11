@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rkmp_learn_flutter/core/constants/app_strings.dart';
-import 'package:rkmp_learn_flutter/shared/presentation/navigation/app_router.dart';
-import 'package:rkmp_learn_flutter/shared/presentation/providers/theme_notifier.dart';
+import 'package:rkmp_learn_flutter/ui/shared/navigation/app_router.dart';
+import 'package:rkmp_learn_flutter/ui/shared/providers/theme_notifier.dart';
 
+import 'core/constants/app_strings.dart';
 
 class MyApp extends ConsumerWidget {
 

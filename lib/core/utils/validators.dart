@@ -1,4 +1,4 @@
-import 'package:rkmp_learn_flutter/core/constants/auth_constants.dart';
+import '../../../core/constants/auth_constants.dart';
 
 class Validators {
 
