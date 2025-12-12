@@ -1,27 +1,31 @@
 class User {
   final int id;
-  final String login;
+  final String username;
   final String email;
-  final DateTime createdAt;
+  final String firstName;
+  final String lastName;
 
-  const User({
+  User({
     required this.id,
-    required this.login,
+    required this.username,
     required this.email,
-    required this.createdAt,
+    required this.firstName,
+    required this.lastName,
   });
 
   User copyWith({
     int? id,
-    String? login,
+    String? username,
     String? email,
-    DateTime? createdAt,
+    String? firstName,
+    String? lastName,
   }) {
     return User(
       id: id ?? this.id,
-      login: login ?? this.login,
+      username: username ?? this.username,
       email: email ?? this.email,
-      createdAt: createdAt ?? this.createdAt,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
     );
   }
 }

@@ -1,25 +1,26 @@
 import '../../../../../core/models/user.dart';
 import '../api_auth_dto.dart';
 
-extension ApiAuthMapper on ApiAuthDto {
-  User dtoToUser() {
+extension UserDtoMapper on UserDto {
+  User toModel() {
     return User(
-      id: int.parse(id),
-      login: login,
+      id: id,
+      username: username,
       email: email,
-      createdAt: DateTime.parse(createdAt),
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 }
 
-extension UserToApiMapper on User {
-  ApiAuthDto userToDto() {
-    return ApiAuthDto(
-      id: id.toString(),
-      login: login,
+extension ApiAuthDtoMapper on ApiAuthDto {
+  User toModel() {
+    return User(
+      id: id,
+      username: username,
       email: email,
-      password: '',
-      createdAt: createdAt.toIso8601String(),
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 }

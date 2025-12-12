@@ -15,9 +15,10 @@ class AuthLocalDataSource {
     final dto = PrefsUserDto.fromModel(user);
     final json = jsonEncode({
       'id': dto.id,
+      'username': dto.username,
       'email': dto.email,
-      'name': dto.login,
-      'created_at': dto.createdAtIso,
+      'firstName': dto.firstName,
+      'lastName': dto.lastName,
     });
     await _storage.write(key: _currentUserKey, value: json);
   }
@@ -29,9 +30,10 @@ class AuthLocalDataSource {
     final json = jsonDecode(jsonString) as Map<String, dynamic>;
     final dto = PrefsUserDto(
       id: json['id'] as int,
+      username: json['username'] as String,
       email: json['email'] as String,
-      login: json['name'] as String,
-      createdAtIso: json['created_at'] as String,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
     );
     return dto.toModel();
   }

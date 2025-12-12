@@ -1,69 +1,53 @@
-import 'package:get_it/get_it.dart';
-import 'package:rkmp_learn_flutter/data/datasources/remote/dto/mappers/api_auth_mapper.dart';
 import '../../../../core/models/user.dart';
-import '../dto/api_auth_dto.dart';
-import 'profile_api_datasource.dart';
+import '../dto/api_create_user_dto.dart';
+import 'auth_api.dart';
+import '../dto/mappers/api_auth_mapper.dart';
 
 class AuthApiDataSource {
-  static final List<ApiAuthDto> _users = [
-    ApiAuthDto.fromJson({
-      'id': '1',
-      'login': 'jonny_123',
-      'email': 'john@example.com',
-      'password': '123',
-      'created_at': DateTime.now().toIso8601String(),
-    }),
-    ApiAuthDto.fromJson({
-      'id': '2',
-      'login': 'jane_123',
-      'email': 'smith@example.com',
-      'password': '12345',
-      'created_at': DateTime.now().toIso8601String(),
-    }),
-  ];
+  final AuthApi _api;
 
-  Future<User?> login(String login, String password) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+  AuthApiDataSource(this._api);
 
-    final dto = _users.firstWhere(
-      (u) => u.login == login && u.password == password,
-      orElse: () => throw Exception('Invalid credentials'),
+  Future<User> login(String username, String password) async {
+    final response = await _api.login(
+      credentials: {
+        'username': username,
+        'password': password,
+        'expiresInMins': 30,
+      },
     );
 
-    return dto.dtoToUser();
+    return response.toModel();
   }
 
-  Future<User> register(String login, String password, String email) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+  Future<User> register({
+    required String username,
+    required String email,
+    required String password,
+  }) async {
+    final firstName = username.split('_').first;
+    final lastName = username.contains('_')
+        ? username.split('_').last
+        : 'User';
 
-    if (_users.any((u) => u.login == login)) {
-      throw Exception('User already exists');
-    }
-    if (_users.any((u) => u.email == email)) {
-      throw Exception('Email already in use');
-    }
-
-    final newUserDto = ApiAuthDto(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      login: login,
+    final requestDto = CreateUserRequestDto(
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
       email: email,
       password: password,
-      createdAt: DateTime.now().toIso8601String(),
+      age: 25,
     );
 
-    _users.add(newUserDto);
-
-    // SIMULATION: add row to profile table
-    GetIt.I<ProfileApiDataSource>().addProfile(
-      login,
-      int.parse(newUserDto.id),
-    );
-
-    return newUserDto.dtoToUser();
+    final response = await _api.registerUser(requestDto);
+    return response.toModel();
   }
 
-  Future<void> deleteProfile(int userId) async {
-    _users.removeWhere((u) => u.id == userId.toString());
-    GetIt.I<ProfileApiDataSource>().deleteProfile(userId);
+  Future<void> deleteUser(int userId) async {
+    final response = await _api.deleteUser(userId);
+    final isDeleted = response.isDeleted == true;
+    if (!isDeleted) {
+      throw Exception('Failed to delete user $userId');
+    }
   }
 }

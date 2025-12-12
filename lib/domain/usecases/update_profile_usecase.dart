@@ -1,21 +1,18 @@
+import 'package:rkmp_learn_flutter/domain/interfaces/repositories/profile_repository.dart';
+
 import '../../core/models/profile.dart';
 import '../interfaces/repositories/auth_repository.dart';
 
-abstract class ProfileDataSource {
-  Future<Profile> getProfile();
-  Future<void> saveProfile(Profile profile);
-}
-
 class UpdateProfileUseCase {
-  final ProfileDataSource dataSource;
+  final ProfileRepository profileRepository;
 
-  UpdateProfileUseCase(this.dataSource);
+  UpdateProfileUseCase(this.profileRepository);
 
   Future<Profile> execute({
     String? newUsername,
     String? newIcon,
   }) async {
-    final currentProfile = await dataSource.getProfile();
+    final currentProfile = await profileRepository.getProfile();
     Profile updatedProfile = currentProfile;
 
     if (newUsername != null && newUsername != currentProfile.username) {
@@ -34,7 +31,7 @@ class UpdateProfileUseCase {
       }
     }
 
-    await dataSource.saveProfile(updatedProfile);
+    await profileRepository.saveProfile(updatedProfile);
 
     return updatedProfile;
   }

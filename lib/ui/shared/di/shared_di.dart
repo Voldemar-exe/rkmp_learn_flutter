@@ -10,6 +10,7 @@ import '../../../data/datasources/local/database/dao/schedule_dao.dart';
 import '../../../data/datasources/local/database/database.dart';
 import '../../../domain/usecases/get_user_ingredients_usecase.dart';
 import '../../../domain/usecases/get_user_recipes_usecase.dart';
+import '../../../domain/usecases/save_profile_usecase.dart';
 
 void registerSharedDependencies() {
   GetIt.I.registerLazySingleton<SharedPreferencesAsync>(
@@ -35,7 +36,12 @@ void registerSharedDependencies() {
   GetIt.I.registerLazySingleton<DeleteProfileUseCase>(
     () => DeleteProfileUseCase(GetIt.I()),
   );
-
+  GetIt.I.registerLazySingleton<UpdateProfileUseCase>(
+        () => UpdateProfileUseCase(GetIt.I()),
+  );
+  GetIt.I.registerLazySingleton<SaveProfileUseCase>(
+        () => SaveProfileUseCase(GetIt.I()),
+  );
   GetIt.I.registerLazySingleton<GetUserUseCase>(
     () => GetUserUseCase(GetIt.I()),
   );

@@ -14,12 +14,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
        _localDataSource = localDataSource;
 
   @override
-  Future<Profile> getProfile(int userId) async {
+  Future<Profile> getProfile({int? userId}) async {
     try {
-      final remoteProfile = await _remoteDataSource.getProfileById(userId);
-      if (remoteProfile != null) {
-        await _localDataSource.saveProfile(remoteProfile);
-        return remoteProfile;
+      if (userId != null) {
+        final remoteProfile = await _remoteDataSource.getProfileById(userId);
+        if (remoteProfile != null) {
+          await _localDataSource.saveProfile(remoteProfile);
+          return remoteProfile;
+        }
+        return await _localDataSource.getProfile();
       }
 
       return await _localDataSource.getProfile();
@@ -29,8 +32,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<void> saveProfile(Profile profile, int userId) async {
+  Future<void> saveProfile(Profile profile, {int? userId}) async {
     await _localDataSource.saveProfile(profile);
-    await _remoteDataSource.saveProfile(profile, userId);
+    if (userId != null) {
+      await _remoteDataSource.saveProfile(profile, userId);
+    }
   }
 }

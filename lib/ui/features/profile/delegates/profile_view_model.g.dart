@@ -33,7 +33,7 @@ final class ProfileViewModelProvider
   ProfileViewModel create() => ProfileViewModel();
 }
 
-String _$profileViewModelHash() => r'fa98d9f17f4722cb5686c51a620c802555da2c41';
+String _$profileViewModelHash() => r'240e903aa7296be5683f8c3c76e9fd0786762c9e';
 
 abstract class _$ProfileViewModel extends $AsyncNotifier<ProfileState> {
   FutureOr<ProfileState> build();

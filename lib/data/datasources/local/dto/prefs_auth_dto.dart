@@ -2,32 +2,36 @@ import '../../../../core/models/user.dart';
 
 class PrefsUserDto {
   final int id;
+  final String username;
   final String email;
-  final String login;
-  final String createdAtIso;
+  final String firstName;
+  final String lastName;
 
   PrefsUserDto({
     required this.id,
+    required this.username,
     required this.email,
-    required this.login,
-    required this.createdAtIso,
+    required this.firstName,
+    required this.lastName,
   });
 
   factory PrefsUserDto.fromModel(User user) {
     return PrefsUserDto(
       id: user.id,
+      username: user.username,
       email: user.email,
-      login: user.login,
-      createdAtIso: user.createdAt.toIso8601String(),
+      firstName: user.firstName,
+      lastName: user.lastName,
     );
   }
 
   User toModel() {
     return User(
       id: id,
+      username: username,
       email: email,
-      login: login,
-      createdAt: DateTime.parse(createdAtIso),
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 }

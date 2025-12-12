@@ -11,9 +11,10 @@ class GetUserUseCase {
     if (authStatus == null) return null;
     return User(
       id: authStatus.id,
-      login: authStatus.login,
+      username: authStatus.username,
       email: authStatus.email,
-      createdAt: authStatus.createdAt,
+      firstName: authStatus.firstName,
+      lastName: authStatus.lastName,
     );
   }
 }

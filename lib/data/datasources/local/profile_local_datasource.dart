@@ -16,7 +16,10 @@ class ProfileLocalDataSource {
   }
 
   Future<void> saveProfile(Profile profile) async {
+    print(profile.username);
+    print(profile.profileIconName);
     final dto = PrefsProfileDto.fromModel(profile);
+    print(dto.username + "|" + dto.icon_name.toString());
     await _prefs.setString('username', dto.username);
     if (dto.icon_name != null) {
       await _prefs.setString('icon_name', dto.icon_name!);

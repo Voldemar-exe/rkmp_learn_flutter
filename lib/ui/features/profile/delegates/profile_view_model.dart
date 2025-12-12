@@ -22,9 +22,7 @@ class ProfileViewModel extends _$ProfileViewModel {
 
   Future<ProfileState> _loadProfile() async {
     try {
-      final user = await ref.read(checkAuthStatusProvider.future);
-      final userId = (user as Authenticated).user.id;
-      final profile = await _profileRepository.getProfile(userId);
+      final profile = await _profileRepository.getProfile();
 
       return ProfileState(profile: profile, isLoading: false, isError: false);
     } catch (e) {
@@ -38,7 +36,7 @@ class ProfileViewModel extends _$ProfileViewModel {
     try {
       final user = await ref.read(checkAuthStatusProvider.future);
       final userId = (user as Authenticated).user.id;
-      await _profileRepository.saveProfile(profile, userId);
+      await _profileRepository.saveProfile(profile, userId: userId);
 
       state = AsyncValue.data(
         ProfileState(profile: profile, isLoading: false, isError: false),
