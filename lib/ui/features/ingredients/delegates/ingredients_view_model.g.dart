@@ -34,7 +34,7 @@ final class IngredientsViewModelProvider
 }
 
 String _$ingredientsViewModelHash() =>
-    r'4b5ed7e6b2da9cd3609204adb06f6c6f68ad088d';
+    r'3632c370612f001886c037bfee7ab2645c753d0d';
 
 abstract class _$IngredientsViewModel
     extends $AsyncNotifier<IngredientsListState> {

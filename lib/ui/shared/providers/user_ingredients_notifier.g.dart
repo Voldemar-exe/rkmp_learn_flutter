@@ -48,4 +48,4 @@ final class UserIngredientsProvider
   }
 }
 
-String _$userIngredientsHash() => r'37b21e4de955367d8c85bdc61d98f0e18e862131';
+String _$userIngredientsHash() => r'be39e66fcb44db00bf5db3175ebb10345ac21a33';

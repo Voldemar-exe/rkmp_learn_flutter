@@ -1,30 +1,16 @@
 import '../../../../../core/models/recipe.dart';
-import '../api_recipes_dto.dart';
+import '../api_recipe_dto.dart';
 
-extension ApiRecipesMapper on ApiRecipesDto {
-  Recipe dtoToRecipe() {
+extension ApiRecipesMapper on ApiRecipeDto {
+  Recipe toModel() {
     return Recipe(
-      id: id,
-      name: name,
-      category: category,
-      area: area,
-      instructions: instructions,
-      imageUrl: imageUrl,
-      ingredientsWithMeasure: ingredientsWithMeasure,
-    );
-  }
-}
-
-extension RecipeToApiMapper on Recipe {
-  ApiRecipesDto recipeToDto() {
-    return ApiRecipesDto(
-      id: id,
-      name: name,
-      category: category,
-      area: area,
-      instructions: instructions,
-      imageUrl: imageUrl,
-      ingredientsWithMeasure: ingredientsWithMeasure,
+      id: int.tryParse(idMeal ?? '0') ?? 0,
+      name: strMeal ?? 'Unknown',
+      category: strCategory ?? 'Unknown',
+      area: strArea ?? 'Unknown',
+      instructions: strInstructions ?? '',
+      imageUrl: strMealThumb ?? '',
+      ingredientsWithMeasure: getIngredientsWithMeasure(),
     );
   }
 }

@@ -42,7 +42,7 @@ final class ColorPickerNotifierProvider
 }
 
 String _$colorPickerNotifierHash() =>
-    r'1dfd8cb00183354d1b0128dbb8b6edfeb26b6e2b';
+    r'7de62b4ee690fdbc15eadafe602ee0d97744e3ff';
 
 abstract class _$ColorPickerNotifier extends $Notifier<Color> {
   Color build();

@@ -45,4 +45,4 @@ final class CheckAuthStatusProvider
   }
 }
 
-String _$checkAuthStatusHash() => r'bc0bc57797ee370e4ed1f25e9c2765f35487e88a';
+String _$checkAuthStatusHash() => r'2e8aefc9c5e341bc1f02851685517f63a2b98560';

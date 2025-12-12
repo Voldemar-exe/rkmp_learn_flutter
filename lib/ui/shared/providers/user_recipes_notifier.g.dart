@@ -46,4 +46,4 @@ final class UserRecipesProvider
   }
 }
 
-String _$userRecipesHash() => r'b05f4d8a0278827508d9bee58d66ff9ed6158b0d';
+String _$userRecipesHash() => r'6bae2d3145ea841d38b046f61bd7b79a5732a78f';

@@ -1,6 +1,7 @@
+import 'package:rkmp_learn_flutter/data/datasources/local/database/database.dart';
+
 import '../../../core/models/ingredient.dart';
 import 'database/dao/ingredient_dao.dart';
-import 'database/database.dart';
 
 class DriftIngredientsLocalDataSource {
   final IngredientDao _dao;
