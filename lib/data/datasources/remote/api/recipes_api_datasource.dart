@@ -1,20 +1,21 @@
 import 'package:dio/dio.dart';
+import 'package:rkmp_learn_flutter/data/datasources/remote/api/interceptors/error_handling_interceptor.dart';
+import 'package:rkmp_learn_flutter/data/datasources/remote/api/interceptors/logging_interceptor.dart';
+import 'package:rkmp_learn_flutter/data/datasources/remote/api/recipes_api.dart';
 import 'package:rkmp_learn_flutter/data/datasources/remote/dto/mappers/api_recipes_mapper.dart';
 
 import '../../../../core/models/recipe.dart';
-import '../dto/api_recipe_dto.dart';
 import 'exceptions.dart';
 
 class RecipesApiDataSource {
-  final Dio _dio;
+  final RecipesApi _api;
 
-  RecipesApiDataSource(this._dio);
+  RecipesApiDataSource(this._api);
 
   Future<Recipe> getRandomRecipe() async {
     try {
-      final response = await _dio.get('random.php');
-      final data = MealResponse.fromJson(response.data);
-      final dto = data.meals!.first;
+      final response = await _api.getRandomRecipe();
+      final dto = response.meals!.first;
       return dto.toModel();
     } catch (e) {
       if (e is DioException) rethrow;
@@ -25,24 +26,28 @@ class RecipesApiDataSource {
   Future<List<Recipe>> searchRecipesByName(String query) async {
     if (query.trim().isEmpty) return [];
     try {
-      final response = await _dio.get(
-        'search.php',
-        queryParameters: {'s': query},
-      );
-      final data = MealResponse.fromJson(response.data);
-      final dtos = data.meals ?? [];
+      final response = await _api.searchRecipesByName(query);
+      final dtos = response.meals ?? [];
       return dtos.map((d) => d.toModel()).toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        throw BadRequestException(
+          'API Error ${e.response?.statusCode}: ${e.message}',
+        );
+      } else if (e.response?.statusCode == 408) {
+        throw NetworkException('Network error: ${e.message}');
+      } else {
+        throw Exception('Unknown Dio error: ${e.message}');
+      }
     } catch (e) {
-      if (e is DioException) rethrow;
-      throw ServerException();
+      throw Exception('Unexpected error: $e');
     }
   }
 
   Future<Recipe?> getRecipeById(int id) async {
     try {
-      final response = await _dio.get('lookup.php', queryParameters: {'i': id});
-      final data = MealResponse.fromJson(response.data);
-      final dto = data.meals?.firstOrNull;
+      final response = await _api.getRecipeById(id);
+      final dto = response.meals?.firstOrNull;
       return dto?.toModel();
     } catch (e) {
       if (e is DioException) rethrow;
@@ -53,12 +58,8 @@ class RecipesApiDataSource {
   Future<List<Recipe>> getRecipesByFirstLetter(String letter) async {
     if (letter.isEmpty || letter.length > 1) return [];
     try {
-      final response = await _dio.get(
-        'search.php',
-        queryParameters: {'f': letter},
-      );
-      final data = MealResponse.fromJson(response.data);
-      final dtos = data.meals ?? [];
+      final response = await _api.getRecipesByFirstLetter(letter);
+      final dtos = response.meals ?? [];
       return dtos.map((d) => d.toModel()).toList();
     } catch (e) {
       if (e is DioException) rethrow;
@@ -75,3 +76,5 @@ extension FirstWhereExt<T> on List<T> {
     return null;
   }
 }
+
+

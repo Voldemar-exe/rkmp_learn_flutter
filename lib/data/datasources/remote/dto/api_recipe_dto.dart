@@ -164,13 +164,13 @@ class ApiRecipeDto {
 }
 
 @JsonSerializable()
-class MealResponse {
+class RecipeResponse {
   final List<ApiRecipeDto>? meals;
 
-  const MealResponse({this.meals});
+  const RecipeResponse({this.meals});
 
-  factory MealResponse.fromJson(Map<String, dynamic> json) =>
-      _$MealResponseFromJson(json);
+  factory RecipeResponse.fromJson(Map<String, dynamic> json) =>
+      _$RecipeResponseFromJson(json);
 }
 
 @JsonSerializable()

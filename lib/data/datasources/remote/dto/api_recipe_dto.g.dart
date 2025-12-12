@@ -107,13 +107,14 @@ Map<String, dynamic> _$ApiRecipeDtoToJson(ApiRecipeDto instance) =>
       'strMeasure20': instance.strMeasure20,
     };
 
-MealResponse _$MealResponseFromJson(Map<String, dynamic> json) => MealResponse(
-  meals: (json['meals'] as List<dynamic>?)
-      ?.map((e) => ApiRecipeDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+RecipeResponse _$RecipeResponseFromJson(Map<String, dynamic> json) =>
+    RecipeResponse(
+      meals: (json['meals'] as List<dynamic>?)
+          ?.map((e) => ApiRecipeDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-Map<String, dynamic> _$MealResponseToJson(MealResponse instance) =>
+Map<String, dynamic> _$RecipeResponseToJson(RecipeResponse instance) =>
     <String, dynamic>{'meals': instance.meals};
 
 CategoryDto _$CategoryDtoFromJson(Map<String, dynamic> json) => CategoryDto(

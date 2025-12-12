@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rkmp_learn_flutter/data/datasources/remote/dto/mappers/api_auth_mapper.dart';
 import '../../../../core/models/user.dart';
 import '../dto/api_auth_dto.dart';
-import 'profile_api_data_source.dart';
+import 'profile_api_datasource.dart';
 
 class AuthApiDataSource {
   static final List<ApiAuthDto> _users = [

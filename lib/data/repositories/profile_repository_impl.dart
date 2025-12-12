@@ -1,7 +1,7 @@
 import '../../core/models/profile.dart';
 import '../../domain/interfaces/repositories/profile_repository.dart';
 import '../datasources/local/profile_local_datasource.dart';
-import '../datasources/remote/api/profile_api_data_source.dart';
+import '../datasources/remote/api/profile_api_datasource.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileLocalDataSource _localDataSource;
