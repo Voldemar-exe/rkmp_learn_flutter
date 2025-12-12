@@ -127,7 +127,8 @@ class $IngredientsTable extends Ingredients
   }
 }
 
-class IngredientEntity extends DataClass implements Insertable<IngredientEntity> {
+class IngredientEntity extends DataClass
+    implements Insertable<IngredientEntity> {
   final int id;
   final String name;
   final String? measureUnit;
@@ -208,7 +209,7 @@ class IngredientEntity extends DataClass implements Insertable<IngredientEntity>
 
   @override
   String toString() {
-    return (StringBuffer('Ingredient(')
+    return (StringBuffer('IngredientEntity(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('measureUnit: $measureUnit, ')
@@ -305,7 +306,8 @@ class IngredientsCompanion extends UpdateCompanion<IngredientEntity> {
   }
 }
 
-class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeEntity> {
+class $RecipesTable extends Recipes
+    with TableInfo<$RecipesTable, RecipeEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -621,7 +623,7 @@ class RecipeEntity extends DataClass implements Insertable<RecipeEntity> {
 
   @override
   String toString() {
-    return (StringBuffer('Recipe(')
+    return (StringBuffer('RecipeEntity(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('category: $category, ')
@@ -1473,7 +1475,10 @@ class $$RecipesTableTableManager
           $$RecipesTableAnnotationComposer,
           $$RecipesTableCreateCompanionBuilder,
           $$RecipesTableUpdateCompanionBuilder,
-          (RecipeEntity, BaseReferences<_$AppDatabase, $RecipesTable, RecipeEntity>),
+          (
+            RecipeEntity,
+            BaseReferences<_$AppDatabase, $RecipesTable, RecipeEntity>,
+          ),
           RecipeEntity,
           PrefetchHooks Function()
         > {
@@ -1542,7 +1547,10 @@ typedef $$RecipesTableProcessedTableManager =
       $$RecipesTableAnnotationComposer,
       $$RecipesTableCreateCompanionBuilder,
       $$RecipesTableUpdateCompanionBuilder,
-      (RecipeEntity, BaseReferences<_$AppDatabase, $RecipesTable, RecipeEntity>),
+      (
+        RecipeEntity,
+        BaseReferences<_$AppDatabase, $RecipesTable, RecipeEntity>,
+      ),
       RecipeEntity,
       PrefetchHooks Function()
     >;

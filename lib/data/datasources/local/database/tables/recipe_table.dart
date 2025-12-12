@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+@DataClassName("RecipeEntity")
 class Recipes extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
