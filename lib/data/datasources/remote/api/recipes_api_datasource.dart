@@ -3,13 +3,12 @@ import 'package:rkmp_learn_flutter/data/datasources/remote/dto/mappers/api_recip
 
 import '../../../../core/models/recipe.dart';
 import '../dto/api_recipe_dto.dart';
-import 'dio_client.dart';
 import 'exceptions.dart';
 
 class RecipesApiDataSource {
   final Dio _dio;
 
-  RecipesApiDataSource(DioClient dioClient) : _dio = dioClient.instance;
+  RecipesApiDataSource(this._dio);
 
   Future<Recipe> getRandomRecipe() async {
     try {

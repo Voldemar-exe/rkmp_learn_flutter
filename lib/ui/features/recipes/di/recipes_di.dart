@@ -13,7 +13,7 @@ void registerRecipesDependencies() {
     () => DioClient(baseUrl: 'https://www.themealdb.com/api/json/v1/1/'),
   );
   GetIt.I.registerLazySingleton<RecipesApiDataSource>(
-    () => RecipesApiDataSource(GetIt.I<DioClient>()),
+    () => RecipesApiDataSource(GetIt.I<DioClient>().instance),
   );
   GetIt.I.registerLazySingleton<DriftRecipesLocalDataSource>(
     () => DriftRecipesLocalDataSource(GetIt.I<RecipeDao>()),
