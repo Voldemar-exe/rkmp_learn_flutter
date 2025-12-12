@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rkmp_learn_flutter/ui/features/profile/screens/profile_icon_picker_dialog.dart';
+import 'package:rkmp_learn_flutter/ui/shared/providers/auth_notifier.dart';
 import '../../../shared/constants/profile_constants.dart';
 import '../../../shared/providers/delete_profile_notifier.dart';
 import '../../auth/delegates/auth_view_model.dart';

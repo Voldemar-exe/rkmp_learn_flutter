@@ -22,7 +22,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await _remoteDataSource.login(login, password);
       await _authLocalDataSource.saveCurrentUser(user);
       await _authLocalDataSource.saveToken('token_${user.id}');
-      GetIt.I<SaveProfileUseCase>().execute(user.username);
+      GetIt.I<SaveProfileUseCase>().execute(
+        "${user.firstName} ${user.lastName}",
+      );
       return user;
     } catch (e) {
       throw Exception('Login failed: ${e.toString()}');
@@ -35,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await _remoteDataSource.register(
         username: login,
         email: email,
-        password: password
+        password: password,
       );
       await _authLocalDataSource.saveCurrentUser(user);
       await _authLocalDataSource.saveToken('token_${user.id}');
