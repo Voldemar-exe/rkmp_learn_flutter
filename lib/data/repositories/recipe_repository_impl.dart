@@ -1,7 +1,7 @@
 import '../../core/models/recipe.dart';
 import '../../domain/interfaces/repositories/recipe_repository.dart';
-import '../datasources/api/recipes_api_datasource.dart';
 import '../datasources/local/recipes_local_data_source.dart';
+import '../datasources/remote/api/recipes_api_datasource.dart';
 
 class RecipeRepositoryImpl implements RecipeRepository {
   final RecipesApiDataSource _remoteDataSource;

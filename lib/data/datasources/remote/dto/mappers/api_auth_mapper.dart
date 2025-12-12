@@ -1,6 +1,5 @@
-import 'package:rkmp_learn_flutter/data/datasources/api/dto/api_auth_dto.dart';
-
 import '../../../../../core/models/user.dart';
+import '../api_auth_dto.dart';
 
 extension ApiAuthMapper on ApiAuthDto {
   User dtoToUser() {

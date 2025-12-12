@@ -1,6 +1,5 @@
-import 'package:rkmp_learn_flutter/data/datasources/api/dto/api_recipes_dto.dart';
-
 import '../../../../../core/models/recipe.dart';
+import '../api_recipes_dto.dart';
 
 extension ApiRecipesMapper on ApiRecipesDto {
   Recipe dtoToRecipe() {

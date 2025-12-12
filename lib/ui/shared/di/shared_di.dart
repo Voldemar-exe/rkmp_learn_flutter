@@ -4,10 +4,10 @@ import 'package:rkmp_learn_flutter/domain/usecases/update_profile_usecase.dart';
 import 'package:rkmp_learn_flutter/domain/usecases/get_user_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/database/dao/ingredient_dao.dart';
-import '../../../data/database/dao/recipe_dao.dart';
-import '../../../data/database/dao/schedule_dao.dart';
-import '../../../data/database/database.dart';
+import '../../../data/datasources/local/database/dao/ingredient_dao.dart';
+import '../../../data/datasources/local/database/dao/recipe_dao.dart';
+import '../../../data/datasources/local/database/dao/schedule_dao.dart';
+import '../../../data/datasources/local/database/database.dart';
 import '../../../domain/usecases/get_user_ingredients_usecase.dart';
 import '../../../domain/usecases/get_user_recipes_usecase.dart';
 

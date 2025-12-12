@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:rkmp_learn_flutter/data/datasources/api/dto/mappers/api_recipes_mapper.dart';
+import 'package:rkmp_learn_flutter/data/datasources/remote/dto/mappers/api_recipes_mapper.dart';
 
-import '../../../core/models/recipe.dart';
-import 'dto/api_recipes_dto.dart';
+import '../../../../core/models/recipe.dart';
+import '../dto/api_recipes_dto.dart';
 
 class RecipesApiDataSource {
   static final List<ApiRecipesDto> _apiRecipes = [

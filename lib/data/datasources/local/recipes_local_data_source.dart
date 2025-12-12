@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import '../../../core/models/recipe.dart';
-import '../../database/dao/recipe_dao.dart';
-import '../../database/database.dart';
+import 'database/dao/recipe_dao.dart';
+import 'database/database.dart';
 
 class DriftRecipesLocalDataSource {
   final RecipeDao _recipeDao;

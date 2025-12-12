@@ -1,4 +1,4 @@
-import '../../../core/models/profile.dart';
+import '../../../../core/models/profile.dart';
 
 class ProfileApiDataSource {
   static final List<Map<String, dynamic>> _profiles = [

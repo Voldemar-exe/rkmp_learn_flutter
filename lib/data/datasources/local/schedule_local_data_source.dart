@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import '../../../core/models/recipe.dart';
 import '../../../core/models/scheduled_meal.dart';
-import '../../database/dao/recipe_dao.dart';
-import '../../database/dao/schedule_dao.dart';
-import '../../database/database.dart';
+import 'database/dao/recipe_dao.dart';
+import 'database/dao/schedule_dao.dart';
+import 'database/database.dart';
 
 class DriftScheduleLocalDataSource {
   final ScheduleDao _scheduleDao;

@@ -1,4 +1,4 @@
-import '../../../core/models/ingredient.dart';
+import '../../../../core/models/ingredient.dart';
 
 class IngredientsApiDataSource {
 

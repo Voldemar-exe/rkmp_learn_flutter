@@ -5,7 +5,7 @@ import '../../../core/models/ingredient.dart';
 import '../../../core/models/recipe.dart';
 import '../../../core/models/scheduled_meal.dart';
 import '../../../core/models/statistics.dart';
-import '../api/ingredients_api_datasource.dart';
+import '../remote/api/ingredients_api_datasource.dart';
 
 class StatisticsLocalDataSource {
   final DriftScheduleLocalDataSource _scheduleDataSource;

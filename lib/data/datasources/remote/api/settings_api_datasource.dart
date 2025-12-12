@@ -1,4 +1,4 @@
-import '../../../core/models/app_settings.dart';
+import '../../../../core/models/app_settings.dart';
 
 class SettingsApiDataSource {
   static final List<Map<String, dynamic>> _settings = [

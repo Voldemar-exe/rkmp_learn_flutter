@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-import '../../../core/models/scheduled_meal.dart';
+import '../../../../../core/models/scheduled_meal.dart';
 import '../database.dart';
 import '../tables/schedule_table.dart';
 

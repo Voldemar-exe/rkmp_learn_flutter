@@ -2,9 +2,9 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rkmp_learn_flutter/data/database/tables/ingredient_table.dart';
-import 'package:rkmp_learn_flutter/data/database/tables/recipe_table.dart';
-import 'package:rkmp_learn_flutter/data/database/tables/schedule_table.dart';
+import 'package:rkmp_learn_flutter/data/datasources/local/database/tables/ingredient_table.dart';
+import 'package:rkmp_learn_flutter/data/datasources/local/database/tables/recipe_table.dart';
+import 'package:rkmp_learn_flutter/data/datasources/local/database/tables/schedule_table.dart';
 
 import 'dao/ingredient_dao.dart';
 import 'dao/recipe_dao.dart';

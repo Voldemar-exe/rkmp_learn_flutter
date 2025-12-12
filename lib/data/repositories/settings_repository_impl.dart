@@ -1,7 +1,7 @@
 import '../../domain/interfaces/repositories/settings_repository.dart';
 import '../../core/models/app_settings.dart';
-import '../datasources/api/settings_api_datasource.dart';
 import '../datasources/local/settings_local_data_source.dart';
+import '../datasources/remote/api/settings_api_datasource.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsLocalDataSource _localDataSource;

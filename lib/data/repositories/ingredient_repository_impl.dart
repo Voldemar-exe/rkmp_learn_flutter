@@ -1,9 +1,7 @@
-
-
 import '../../core/models/ingredient.dart';
 import '../../domain/interfaces/repositories/ingredient_repository.dart';
-import '../datasources/api/ingredients_api_datasource.dart';
 import '../datasources/local/ingredients_local_datasource.dart';
+import '../datasources/remote/api/ingredients_api_datasource.dart';
 
 class IngredientRepositoryImpl implements IngredientRepository {
   final DriftIngredientsLocalDataSource _localDataSource;
