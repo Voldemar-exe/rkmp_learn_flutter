@@ -13,16 +13,8 @@ import 'dao/schedule_dao.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [
-    Ingredients,
-    Recipes,
-    Schedule
-  ],
-  daos: [
-    IngredientDao,
-    RecipeDao,
-    ScheduleDao
-  ]
+  tables: [Ingredients, Recipes, Schedule],
+  daos: [IngredientDao, RecipeDao, ScheduleDao]
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());

@@ -21,7 +21,7 @@ class MealTile extends StatelessWidget {
     return ListTile(
       title: Text(_getLabel(mealTime)),
       subtitle: _buildSubtitle(context),
-      trailing: meal != null
+      trailing: meal != null && meal?.recipe != null
           ? PopupMenuButton<String>(
               icon: const Icon(Icons.more_vert),
               itemBuilder: (context) => [
@@ -46,7 +46,7 @@ class MealTile extends StatelessWidget {
   }
 
   Widget _buildSubtitle(BuildContext context) {
-    if (meal == null) return const Text('Нет рецепта');
+    if (meal == null || meal!.recipe == null) return const Text('Нет рецепта');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
