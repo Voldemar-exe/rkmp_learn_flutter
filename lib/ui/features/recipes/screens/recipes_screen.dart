@@ -224,10 +224,14 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen>
             ),
             trailing: isApiSearch
                 ? IconButton(
-                    icon: const Icon(Icons.bookmark_add_outlined),
-                    onPressed: () => viewModel.saveRecipe(recipe),
-                  )
-                : null,
+              icon: const Icon(Icons.bookmark_add_outlined),
+              onPressed: () => viewModel.saveRecipe(recipe),
+            )
+                : IconButton(
+              icon: const Icon(Icons.delete_outline),
+              color: Theme.of(context).colorScheme.error,
+              onPressed: () => viewModel.removeRecipe(recipe.id),
+            ),
             onTap: () {
               viewModel.selectRecipe(recipe);
               // _searchController.dispose();

@@ -13,6 +13,11 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsState = ref.watch(settingsViewModelProvider);
 
+    final isTablet = MediaQuery.of(context).size.shortestSide > 600;
+
+    final padding = EdgeInsets.all(isTablet ? 24.0 : 16.0);
+    final iconSize = isTablet ? 40.0 : 32.0;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Настройки')),
       body: settingsState.when(
@@ -23,10 +28,15 @@ class SettingsScreen extends ConsumerWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: padding,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
+                  dense: !isTablet,
+                  visualDensity: isTablet
+                      ? VisualDensity.comfortable
+                      : VisualDensity.standard,
                   title: const Text('Тема'),
                   subtitle: Text(_getThemeModeText(settings.themeModeAsEnum)),
                   trailing: DropdownButton<ThemeMode>(
@@ -46,12 +56,15 @@ class SettingsScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-
                 ListTile(
+                  dense: !isTablet,
+                  visualDensity: isTablet
+                      ? VisualDensity.comfortable
+                      : VisualDensity.standard,
                   title: const Text('Основной цвет'),
                   subtitle: const Text('Текущий цвет'),
                   trailing: IconButton(
-                    iconSize: 32,
+                    iconSize: iconSize,
                     icon: const Icon(Icons.circle),
                     color: settings.primaryColorAsColor,
                     onPressed: () {
@@ -63,7 +76,7 @@ class SettingsScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: isTablet ? 24.0 : 16.0),
               ],
             ),
           );
@@ -86,10 +99,10 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _showColorPicker(
-    BuildContext context,
-    WidgetRef ref,
-    Color currentColor,
-  ) {
+      BuildContext context,
+      WidgetRef ref,
+      Color currentColor,
+      ) {
     ref.read(colorPickerProvider.notifier).updateColor(currentColor);
     showDialog(
       context: context,
